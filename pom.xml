@@ -1,0 +1,35 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.volmit</groupId>
+	<artifactId>Volume</artifactId>
+	<version>1.0</version>
+	<packaging>pom</packaging>
+	<name>Volume</name>
+	<description>A shared library across projects. Strives to accelerate plugin creation.</description>
+	<modules>
+		<module>VolumeCore</module>
+		<module>VolumeLang</module>
+		<module>VolumeMath</module>
+		<module>VolumeReflect</module>
+		<module>VolumeBukkit</module>
+	</modules>
+	<properties>
+		<project.source>The Internet</project.source>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	<distributionManagement>
+		<repository>
+			<id>volmit</id>
+			<url>http://nexus.volmit.com/content/repositories/volmit</url>
+		</repository>
+	</distributionManagement>
+	<repositories>
+		<repository>
+			<id>volmit</id>
+			<url>http://nexus.volmit.com/content/repositories/volmit</url>
+		</repository>
+	</repositories>
+</project>
