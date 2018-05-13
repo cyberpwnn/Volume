@@ -8,22 +8,9 @@ import java.util.TreeMap;
 
 import com.volmit.volume.lang.collections.GList;
 
-import net.openhft.compiler.CachedCompiler;
-
 public class Violator
 {
 	protected static TreeMap<String, Object> nodes = new TreeMap<String, Object>();
-	protected static CachedCompiler compiler = new CachedCompiler(null, null);
-
-	public static Class<?> dynamicCompile(String className, String src) throws ClassNotFoundException
-	{
-		return dynamicCompile(ClassLoader.getSystemClassLoader(), className, src);
-	}
-
-	public static Class<?> dynamicCompile(ClassLoader loader, String className, String src) throws ClassNotFoundException
-	{
-		return compiler.loadFromJava(loader, className, src);
-	}
 
 	private static String id(Object o, Object h)
 	{

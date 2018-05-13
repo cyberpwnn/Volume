@@ -1,7 +1,5 @@
 package com.volmit.volume.math;
 
-import com.volmit.volume.lang.collections.DoubleArrayUtils;
-
 public class Average
 {
 	private double[] values;
