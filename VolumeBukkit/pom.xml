@@ -32,7 +32,7 @@
 		</dependency>
 		<dependency>
 			<groupId>com.volmit</groupId>
-			<artifactId>VolumeMath</artifactId>
+			<artifactId>VolumeReflect</artifactId>
 			<version>1.0</version>
 		</dependency>
 		<dependency>
