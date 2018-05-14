@@ -1,6 +1,5 @@
-package com.volmit.volume.bukkit.util.data;
+package com.volmit.volume.reflect;
 
-import com.volmit.volume.bukkit.pawn.Documented;
 import com.volmit.volume.lang.collections.GMap;
 
 /**
@@ -8,7 +7,6 @@ import com.volmit.volume.lang.collections.GMap;
  *
  * @author cyberpwn
  */
-@Documented
 public class ClassUtil
 {
 	public static GMap<Class<?>, Class<?>> boxes;
@@ -103,5 +101,20 @@ public class ClassUtil
 		unboxes.put(Byte.class, byte.class);
 		unboxes.put(Boolean.class, boolean.class);
 		unboxes.put(Float.class, float.class);
+	}
+
+	public static Class<?> flip(Class<?> c)
+	{
+		if(isPrimative(c))
+		{
+			return toWrapper(c);
+		}
+
+		if(isWrapper(c))
+		{
+			return toPrimative(c);
+		}
+
+		return c;
 	}
 }

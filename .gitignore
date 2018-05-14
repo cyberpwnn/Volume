@@ -11,6 +11,7 @@ VolumeCore/target/
 VolumeLang/target/
 VolumeMath/target/
 VolumeReflect/target/
+VolumeCluster/target/
 
 # Eclipse & Maven
 target/

@@ -13,6 +13,7 @@
 		<module>VolumeMath</module>
 		<module>VolumeReflect</module>
 		<module>VolumeBukkit</module>
+		<module>VolumeCluster</module>
 	</modules>
 	<properties>
 		<project.source>The Internet</project.source>
