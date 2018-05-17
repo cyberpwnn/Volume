@@ -114,67 +114,75 @@ public class DataCluster implements IDataCluster
 			set(key, ((Integer) o).intValue());
 		}
 
-		if(c.equals(int.class))
+		else if(c.equals(int.class))
 		{
 			set(key, (int) o);
 		}
 
-		if(c.equals(Double.class))
+		else if(c.equals(Double.class))
 		{
 			set(key, ((Double) o).doubleValue());
 		}
 
-		if(c.equals(double.class))
+		else if(c.equals(double.class))
 		{
 			set(key, (double) o);
 		}
 
-		if(c.equals(Float.class))
+		else if(c.equals(Float.class))
 		{
 			set(key, ((Float) o).floatValue());
 		}
 
-		if(c.equals(float.class))
+		else if(c.equals(float.class))
 		{
 			set(key, (float) o);
 		}
 
-		if(c.equals(Long.class))
+		else if(c.equals(Long.class))
 		{
 			set(key, ((Long) o).longValue());
 		}
 
-		if(c.equals(long.class))
+		else if(c.equals(long.class))
 		{
 			set(key, (long) o);
 		}
 
-		if(c.equals(Boolean.class))
+		else if(c.equals(Boolean.class))
 		{
 			set(key, ((Boolean) o).booleanValue());
 		}
 
-		if(c.equals(boolean.class))
+		else if(c.equals(boolean.class))
 		{
 			set(key, (boolean) o);
 		}
 
-		if(c.equals(Short.class))
+		else if(c.equals(Short.class))
 		{
 			set(key, ((Short) o).shortValue());
 		}
 
-		if(c.equals(short.class))
+		else if(c.equals(short.class))
 		{
 			set(key, (short) o);
 		}
 
-		if(c.equals(GList.class))
+		else if(c.equals(GList.class))
 		{
 			set(key, (GList<String>) o);
 		}
 
-		throw new RuntimeException("Unable to set type from " + c.toString());
+		else if(c.equals(String.class))
+		{
+			set(key, (String) o);
+		}
+
+		else
+		{
+			throw new RuntimeException("Unable to set type from " + c.toString());
+		}
 	}
 
 	@Override

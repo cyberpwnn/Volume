@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.volmit</groupId>
 		<artifactId>Volume</artifactId>
-		<version>1.0</version>
+		<version>latest</version>
 	</parent>
 	<properties>
 		<project.source>The Internet</project.source>
@@ -24,12 +24,12 @@
 		<dependency>
 			<groupId>com.volmit</groupId>
 			<artifactId>VolumeCore</artifactId>
-			<version>1.0</version>
+			<version>latest</version>
 		</dependency>
 		<dependency>
 			<groupId>com.volmit</groupId>
 			<artifactId>VolumeLang</artifactId>
-			<version>1.0</version>
+			<version>latest</version>
 		</dependency>
 	</dependencies>
 </project>

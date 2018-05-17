@@ -9,16 +9,17 @@ import com.volmit.volume.lang.format.F;
 
 public class YAMLClusterPort implements IClusterPort<FileConfiguration>
 {
-	public String applyComments(DataCluster cc, String yml)
+	public static String applyComments(DataCluster cc, String yml)
 	{
+		boolean f = false;
 		String src = "";
 
 		for(String i : yml.split("\n"))
 		{
 			if(i.contains(":"))
 			{
-				String key = i.trim().replace(":", "");
-				String spc = F.repeat(" ", i.length() - key.length() - 1);
+				String key = i.trim().split("\\Q: \\E")[0];
+				String spc = F.repeat(" ", i.length() - i.trim().length());
 
 				search: for(String j : cc.k())
 				{
@@ -29,15 +30,21 @@ public class YAMLClusterPort implements IClusterPort<FileConfiguration>
 
 					if(j.split("\\.")[j.split("\\.").length - 1].equals(key))
 					{
+						if(f)
+						{
+							src += "\n";
+						}
+
 						for(String k : F.wrap(cc.getComment(j), 64).split("\n"))
 						{
-							src += spc + "# " + k;
+							src += spc + "# " + k + "\n";
 							break search;
 						}
 					}
 				}
 			}
 
+			f = true;
 			src += i + "\n";
 		}
 
@@ -51,6 +58,11 @@ public class YAMLClusterPort implements IClusterPort<FileConfiguration>
 
 		for(String i : t.getKeys(true))
 		{
+			if(t.isConfigurationSection(i))
+			{
+				continue;
+			}
+
 			cc.set(i, t.get(i));
 		}
 

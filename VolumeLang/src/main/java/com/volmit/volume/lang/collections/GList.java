@@ -488,6 +488,12 @@ public class GList<T> extends ArrayList<T>
 		return this;
 	}
 
+	public GList<T> qadd(T[] t)
+	{
+		this.add(t);
+		return this;
+	}
+
 	/**
 	 * Add a list of elements to the list (same type)
 	 *

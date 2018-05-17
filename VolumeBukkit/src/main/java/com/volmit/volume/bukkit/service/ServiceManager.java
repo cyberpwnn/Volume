@@ -23,8 +23,8 @@ public class ServiceManager implements IPawn
 			try
 			{
 				IService svc = s.getConstructor().newInstance();
-				vp.getPawnManager().getBase().getNextPawnObject(this.getClass()).attach(svc);
 				running.put(s, svc);
+				vp.getPawnManager().getBase().getNextPawnObject(this.getClass()).attach(svc);
 			}
 
 			catch(Exception e)

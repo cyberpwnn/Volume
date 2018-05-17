@@ -1,11 +1,21 @@
 package com.volmit.volume.bukkit.pawn;
 
+import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import org.bukkit.Bukkit;
+import org.bukkit.event.HandlerList;
+
 import com.volmit.volume.bukkit.L;
+import com.volmit.volume.bukkit.VolumePlugin;
+import com.volmit.volume.bukkit.command.ICommand;
+import com.volmit.volume.bukkit.service.IService;
+import com.volmit.volume.bukkit.services.ClusterSVC;
+import com.volmit.volume.bukkit.services.CommandSVC;
 import com.volmit.volume.bukkit.task.A;
+import com.volmit.volume.bukkit.task.S;
 import com.volmit.volume.bukkit.task.TICK;
 import com.volmit.volume.lang.collections.GList;
 import com.volmit.volume.lang.collections.GMap;
@@ -20,6 +30,7 @@ public class PawnObject
 	private GMap<Method, Integer> ticks;
 	private GList<Method> astarts;
 	private GList<Method> astops;
+	private GMap<Field, File> bindPawn;
 	private GMap<Method, Integer> aticks;
 	private IPawn instance;
 
@@ -31,6 +42,7 @@ public class PawnObject
 	@SuppressWarnings("unchecked")
 	public PawnObject(IPawn ins) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException
 	{
+		bindPawn = new GMap<Field, File>();
 		pawns = new GMap<Field, PawnObject>();
 		starts = new GList<Method>();
 		astarts = new GList<Method>();
@@ -53,6 +65,12 @@ public class PawnObject
 			{
 				pawns.put(i, new PawnObject((Class<? extends IPawn>) i.getType()));
 				new V(instance).set(i.getName(), pawns.get(i).instance);
+
+				if(i.isAnnotationPresent(BindConfig.class))
+				{
+					File f = VolumePlugin.vpi.getDataFile(i.getAnnotation(BindConfig.class).value());
+					bindPawn.put(i, f);
+				}
 
 				for(Field j : pawns.get(i).instance.getClass().getDeclaredFields())
 				{
@@ -227,6 +245,8 @@ public class PawnObject
 			i.invoke(instance);
 		}
 
+		postStart();
+
 		if(!astarts.isEmpty())
 		{
 			new A()
@@ -251,8 +271,35 @@ public class PawnObject
 		}
 	}
 
+	private void postStart()
+	{
+		Bukkit.getPluginManager().registerEvents(instance, VolumePlugin.vpi);
+		VolumePlugin.vpi.getService(CommandSVC.class);
+
+		new S(30)
+		{
+			@Override
+			public void run()
+			{
+				if(!(instance instanceof ICommand) && !(instance instanceof IService))
+				{
+					VolumePlugin.vpi.getService(CommandSVC.class).register(instance);
+				}
+
+				for(Field i : bindPawn.k())
+				{
+					File f = bindPawn.get(i);
+					IPawn p = pawns.get(i).getInstance();
+					VolumePlugin.vpi.getService(ClusterSVC.class).bind(f, p);
+				}
+			}
+		};
+	}
+
 	public void stop() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException
 	{
+		HandlerList.unregisterAll(instance);
+
 		for(PawnObject i : attachedPawns.copy())
 		{
 			i.stop();
@@ -331,5 +378,10 @@ public class PawnObject
 	public IPawn getInstance()
 	{
 		return instance;
+	}
+
+	public GList<PawnObject> getAttachedPawns()
+	{
+		return attachedPawns;
 	}
 }

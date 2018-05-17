@@ -6,7 +6,8 @@
 		<artifactId>Volume</artifactId>
 		<version>latest</version>
 	</parent>
-	<artifactId>VolumeCluster</artifactId>
+	<artifactId>VolumePlugin</artifactId>
+	<name>VolumePlugin</name>
 	<properties>
 		<project.source>The Internet</project.source>
 		<maven.compiler.source>1.8</maven.compiler.source>
@@ -19,8 +20,23 @@
 			<url>http://nexus.volmit.com/content/repositories/volmit</url>
 		</repository>
 	</distributionManagement>
-	<name>VolumeLang</name>
+	<repositories>
+		<repository>
+			<id>spigot-repo</id>
+			<url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+		</repository>
+	</repositories>
 	<dependencies>
+		<dependency>
+			<groupId>com.volmit</groupId>
+			<artifactId>VolumeBukkit</artifactId>
+			<version>latest</version>
+		</dependency>
+		<dependency>
+			<groupId>com.volmit</groupId>
+			<artifactId>VolumeNMS</artifactId>
+			<version>latest</version>
+		</dependency>
 		<dependency>
 			<groupId>com.volmit</groupId>
 			<artifactId>VolumeCore</artifactId>
@@ -33,8 +49,24 @@
 		</dependency>
 		<dependency>
 			<groupId>com.volmit</groupId>
+			<artifactId>VolumeMath</artifactId>
+			<version>latest</version>
+		</dependency>
+		<dependency>
+			<groupId>com.volmit</groupId>
 			<artifactId>VolumeReflect</artifactId>
 			<version>latest</version>
+		</dependency>
+		<dependency>
+			<groupId>com.volmit</groupId>
+			<artifactId>VolumeCluster</artifactId>
+			<version>latest</version>
+		</dependency>
+		<dependency>
+			<groupId>org.spigotmc</groupId>
+			<artifactId>spigot-api</artifactId>
+			<version>1.12.2-R0.1-SNAPSHOT</version>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 </project>

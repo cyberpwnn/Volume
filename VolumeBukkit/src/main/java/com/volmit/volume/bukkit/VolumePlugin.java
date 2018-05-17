@@ -1,12 +1,16 @@
 package com.volmit.volume.bukkit;
 
+import java.io.File;
+
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.volmit.volume.bukkit.command.VolumeSender;
 import com.volmit.volume.bukkit.pawn.IPawn;
 import com.volmit.volume.bukkit.pawn.PawnManager;
 import com.volmit.volume.bukkit.service.IService;
 import com.volmit.volume.bukkit.service.ServiceManager;
 import com.volmit.volume.bukkit.task.TaskManager;
+import com.volmit.volume.lang.collections.GList;
 
 public abstract class VolumePlugin extends JavaPlugin implements IPawn
 {
@@ -48,6 +52,20 @@ public abstract class VolumePlugin extends JavaPlugin implements IPawn
 		}
 	}
 
+	public File getDataFile(String... path)
+	{
+		File ff = new File(getDataFolder(), new GList<String>(path).toString("/"));
+		ff.getParentFile().mkdirs();
+		return ff;
+	}
+
+	public File getDataFolder(String... folders)
+	{
+		File ff = new File(getDataFolder(), new GList<String>(folders).toString("/"));
+		ff.mkdirs();
+		return ff;
+	}
+
 	public TaskManager getTaskManager()
 	{
 		return taskManager;
@@ -66,5 +84,11 @@ public abstract class VolumePlugin extends JavaPlugin implements IPawn
 	public ServiceManager getServiceManager()
 	{
 		return serviceManager;
+	}
+
+	public void tagify(VolumeSender vs)
+	{
+		// TODO Auto-generated method stub
+
 	}
 }

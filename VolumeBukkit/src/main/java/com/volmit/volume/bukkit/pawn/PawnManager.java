@@ -41,6 +41,8 @@ public class PawnManager
 	{
 		r.cancel();
 		base.stop();
+		base.getAttachedPawns().clear();
+		base.getPawns().clear();
 	}
 
 	public void tick() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException

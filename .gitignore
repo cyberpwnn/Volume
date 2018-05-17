@@ -12,6 +12,9 @@ VolumeLang/target/
 VolumeMath/target/
 VolumeReflect/target/
 VolumeCluster/target/
+VolumeNMS/target/
+VolumePlugin/target/
+VolumeNMS/lib/
 
 # Eclipse & Maven
 target/
