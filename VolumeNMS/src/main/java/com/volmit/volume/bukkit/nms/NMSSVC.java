@@ -4,9 +4,12 @@ import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 import com.volmit.volume.bukkit.L;
+import com.volmit.volume.bukkit.U;
+import com.volmit.volume.bukkit.nms.adapter.AbstractChunk;
 import com.volmit.volume.bukkit.nms.adapter.NMSA10;
 import com.volmit.volume.bukkit.nms.adapter.NMSA11;
 import com.volmit.volume.bukkit.nms.adapter.NMSA12;
@@ -57,6 +60,16 @@ public class NMSSVC implements IService, IAdapter
 		else if(Protocol.R1_12.to(Protocol.R1_12_2).contains(cp))
 		{
 			ia = new NMSA12();
+		}
+
+		try
+		{
+			U.getPawnObject(this).attach(ia);
+		}
+
+		catch(Exception e)
+		{
+			e.printStackTrace();
 		}
 
 		L.l("NMS Adapter: " + (ia == null ? "NONE" : ia.getClass().getCanonicalName()));
@@ -201,6 +214,51 @@ public class NMSSVC implements IService, IAdapter
 		{
 			return;
 		}
+
 		ia.sendPickup(drop, who);
+	}
+
+	@Override
+	public void pathFind(LivingEntity e, Location l, boolean sprint, double speed)
+	{
+		if(!hasBinding())
+		{
+			return;
+		}
+
+		ia.pathFind(e, l, sprint, speed);
+	}
+
+	@Override
+	public void sendChunkMap(AbstractChunk c, Player p)
+	{
+		if(!hasBinding())
+		{
+			return;
+		}
+
+		ia.sendChunkMap(c, p);
+	}
+
+	@Override
+	public void sendChunkMap(AbstractChunk c, Chunk area)
+	{
+		if(!hasBinding())
+		{
+			return;
+		}
+
+		ia.sendChunkMap(c, area);
+	}
+
+	@Override
+	public AbstractChunk copy(Chunk c)
+	{
+		if(!hasBinding())
+		{
+			return new AbstractChunk();
+		}
+
+		return ia.copy(c);
 	}
 }

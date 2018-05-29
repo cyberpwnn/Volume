@@ -4,13 +4,23 @@ import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
+import com.volmit.volume.bukkit.nms.adapter.AbstractChunk;
 import com.volmit.volume.bukkit.pawn.IPawn;
 import com.volmit.volume.bukkit.util.net.ProtocolRange;
 
 public interface IAdapter extends IPawn
 {
+	public AbstractChunk copy(Chunk c);
+
+	public void sendChunkMap(AbstractChunk c, Player p);
+
+	public void sendChunkMap(AbstractChunk c, Chunk area);
+
+	public void pathFind(LivingEntity e, Location l, boolean sprint, double speed);
+
 	public ProtocolRange getSupportedProtocol();
 
 	public void addPacketHandler(IPacketHandler h);

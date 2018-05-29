@@ -1,11 +1,17 @@
 package com.volmit.volume.bukkit.nms.adapter;
 
+import java.util.ArrayList;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.block.Block;
+import org.bukkit.craftbukkit.v1_12_R1.entity.CraftCreature;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
+import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 import com.volmit.volume.bukkit.VolumePlugin;
@@ -15,15 +21,24 @@ import com.volmit.volume.bukkit.nms.NMSAdapter;
 import com.volmit.volume.bukkit.nms.TinyProtocol;
 import com.volmit.volume.bukkit.pawn.Start;
 import com.volmit.volume.bukkit.pawn.Stop;
+import com.volmit.volume.bukkit.task.SR;
 import com.volmit.volume.bukkit.util.net.Protocol;
+import com.volmit.volume.lang.collections.FinalInteger;
 import com.volmit.volume.lang.collections.GList;
 import com.volmit.volume.lang.collections.GMap;
 import com.volmit.volume.math.M;
 import com.volmit.volume.reflect.V;
 
+import net.minecraft.server.v1_12_R1.BlockPosition;
+import net.minecraft.server.v1_12_R1.EntityAnimal;
+import net.minecraft.server.v1_12_R1.EntityInsentient;
+import net.minecraft.server.v1_12_R1.NBTTagCompound;
+import net.minecraft.server.v1_12_R1.NavigationAbstract;
 import net.minecraft.server.v1_12_R1.Packet;
 import net.minecraft.server.v1_12_R1.PacketPlayInSettings;
 import net.minecraft.server.v1_12_R1.PacketPlayOutCollect;
+import net.minecraft.server.v1_12_R1.PacketPlayOutMapChunk;
+import net.minecraft.server.v1_12_R1.PathEntity;
 
 public class NMSA12 extends NMSAdapter
 {
@@ -99,6 +114,48 @@ public class NMSA12 extends NMSAdapter
 	}
 
 	@Override
+	public void sendChunkMap(AbstractChunk c, Player p)
+	{
+		try
+		{
+			PacketPlayOutMapChunk m = new PacketPlayOutMapChunk();
+			new V(m).set("a", c.getX());
+			new V(m).set("b", c.getZ());
+			new V(m).set("c", c.getBitMask());
+			new V(m).set("d", c.write());
+			new V(m).set("e", new ArrayList<NBTTagCompound>());
+			new V(m).set("f", c.isContinuous());
+			sendPacket(m, p);
+		}
+
+		catch(Throwable e)
+		{
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void sendChunkMap(AbstractChunk c, Chunk area)
+	{
+		try
+		{
+			PacketPlayOutMapChunk m = new PacketPlayOutMapChunk();
+			new V(m).set("a", c.getX());
+			new V(m).set("b", c.getZ());
+			new V(m).set("c", c.getBitMask());
+			new V(m).set("d", c.write());
+			new V(m).set("e", new ArrayList<NBTTagCompound>());
+			new V(m).set("f", c.isContinuous());
+			sendPacket(m, area);
+		}
+
+		catch(Throwable e)
+		{
+			e.printStackTrace();
+		}
+	}
+
+	@Override
 	public void sendPacket(Object packet, Player player)
 	{
 		((CraftPlayer) player).getHandle().playerConnection.sendPacket((Packet<?>) packet);
@@ -167,5 +224,99 @@ public class NMSA12 extends NMSAdapter
 	public void sendPickup(Entity drop, Entity who)
 	{
 		sendPacket(new PacketPlayOutCollect(drop.getEntityId(), who.getEntityId(), 1), drop.getLocation());
+	}
+
+	@Override
+	public void pathFind(LivingEntity e, Location l, boolean sprint, double speed)
+	{
+		if(!(e instanceof Creature))
+		{
+			return;
+		}
+		EntityInsentient le = ((CraftCreature) e).getHandle();
+		NavigationAbstract na = le.getNavigation();
+		PathEntity pe = na.b(new BlockPosition(l.getX(), l.getY(), l.getZ()));
+		na.a(pe, speed);
+		le.setGoalTarget(null);
+
+		if(le instanceof EntityAnimal)
+		{
+			EntityAnimal a = (EntityAnimal) le;
+			a.lastDamager = null;
+			a.lastDamage = 0;
+		}
+
+		le.setSprinting(sprint);
+		FinalInteger fe = new FinalInteger(100);
+
+		new SR()
+		{
+			@Override
+			public void run()
+			{
+				try
+				{
+					fe.sub(1);
+
+					if(fe.get() < 0)
+					{
+						le.setSprinting(false);
+						cancel();
+						return;
+					}
+
+					if(e.isDead())
+					{
+						cancel();
+						return;
+					}
+
+					if(pe.b())
+					{
+						cancel();
+
+						if(sprint)
+						{
+							le.setSprinting(false);
+						}
+					}
+				}
+
+				catch(Exception e)
+				{
+					le.setSprinting(false);
+					cancel();
+				}
+			}
+		};
+	}
+
+	@SuppressWarnings("deprecation")
+	@Override
+	public AbstractChunk copy(Chunk c)
+	{
+		AbstractChunk as = new AbstractChunk();
+		as.setX(c.getX());
+		as.setZ(c.getZ());
+
+		for(int i = 0; i < 16; i++)
+		{
+			for(int j = 0; j < 16; j++)
+			{
+				for(int k = 0; k < 256; k++)
+				{
+					Block b = c.getBlock(i, k, j);
+
+					if(!b.isEmpty())
+					{
+						as.set(i, k, j, b.getTypeId(), b.getData());
+						as.setBlockLight(i, k, j, b.getLightFromBlocks());
+						as.setSkyLight(i, k, j, b.getLightFromSky());
+					}
+				}
+			}
+		}
+
+		return as;
 	}
 }
