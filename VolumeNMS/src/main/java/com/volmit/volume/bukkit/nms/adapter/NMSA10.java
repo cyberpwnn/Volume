@@ -1,12 +1,10 @@
 package com.volmit.volume.bukkit.nms.adapter;
 
-import java.util.ArrayList;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.block.Block;
+import org.bukkit.craftbukkit.v1_10_R1.CraftChunk;
 import org.bukkit.craftbukkit.v1_10_R1.entity.CraftCreature;
 import org.bukkit.craftbukkit.v1_10_R1.entity.CraftPlayer;
 import org.bukkit.entity.Creature;
@@ -32,13 +30,15 @@ import com.volmit.volume.reflect.V;
 import net.minecraft.server.v1_10_R1.BlockPosition;
 import net.minecraft.server.v1_10_R1.EntityAnimal;
 import net.minecraft.server.v1_10_R1.EntityInsentient;
+import net.minecraft.server.v1_10_R1.NBTTagCompound;
 import net.minecraft.server.v1_10_R1.NavigationAbstract;
 import net.minecraft.server.v1_10_R1.Packet;
 import net.minecraft.server.v1_10_R1.PacketPlayInSettings;
 import net.minecraft.server.v1_10_R1.PacketPlayOutCollect;
+import net.minecraft.server.v1_10_R1.PacketPlayOutMapChunk;
+import net.minecraft.server.v1_10_R1.PacketPlayOutUnloadChunk;
 import net.minecraft.server.v1_10_R1.PathEntity;
-import net.minecraft.server.v1_12_R1.NBTTagCompound;
-import net.minecraft.server.v1_12_R1.PacketPlayOutMapChunk;
+import net.minecraft.server.v1_10_R1.TileEntity;
 
 public class NMSA10 extends NMSAdapter
 {
@@ -103,19 +103,35 @@ public class NMSA10 extends NMSAdapter
 			sendPacket(packet, i);
 		}
 	}
-
 	@Override
 	public void sendChunkMap(AbstractChunk c, Player p)
 	{
 		try
 		{
+			Chunk area = p.getWorld().getChunkAt(c.getX(), c.getZ());
+			GList<NBTTagCompound> tags = new GList<NBTTagCompound>();
+
+			for(BlockPosition i : ((CraftChunk) area).getHandle().tileEntities.keySet())
+			{
+				TileEntity tile = ((CraftChunk) area).getHandle().tileEntities.get(i);
+				NBTTagCompound tag = new NBTTagCompound();
+				tile.save(tag);
+				tags.add(tag);
+			}
+
 			PacketPlayOutMapChunk m = new PacketPlayOutMapChunk();
 			new V(m).set("a", c.getX());
 			new V(m).set("b", c.getZ());
 			new V(m).set("c", c.getBitMask());
 			new V(m).set("d", c.write());
-			new V(m).set("e", new ArrayList<NBTTagCompound>());
+			new V(m).set("e", tags);
 			new V(m).set("f", c.isContinuous());
+
+			if(c.isContinuous())
+			{
+				sendChunkUnload(c.getX(), c.getZ(), p);
+			}
+
 			sendPacket(m, p);
 		}
 
@@ -128,21 +144,12 @@ public class NMSA10 extends NMSAdapter
 	@Override
 	public void sendChunkMap(AbstractChunk c, Chunk area)
 	{
-		try
+		for(Player i : area.getWorld().getPlayers())
 		{
-			PacketPlayOutMapChunk m = new PacketPlayOutMapChunk();
-			new V(m).set("a", c.getX());
-			new V(m).set("b", c.getZ());
-			new V(m).set("c", c.getBitMask());
-			new V(m).set("d", c.write());
-			new V(m).set("e", new ArrayList<NBTTagCompound>());
-			new V(m).set("f", c.isContinuous());
-			sendPacket(m, area);
-		}
-
-		catch(Throwable e)
-		{
-			e.printStackTrace();
+			if(canSee(i, area))
+			{
+				sendChunkMap(c, i);
+			}
 		}
 	}
 
@@ -291,32 +298,15 @@ public class NMSA10 extends NMSAdapter
 		};
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
-	public AbstractChunk copy(Chunk c)
+	public void sendChunkUnload(int x, int z, Player p)
 	{
-		AbstractChunk as = new AbstractChunk();
-		as.setX(c.getX());
-		as.setZ(c.getZ());
+		sendPacket(new PacketPlayOutUnloadChunk(x, z), p);
+	}
 
-		for(int i = 0; i < 16; i++)
-		{
-			for(int j = 0; j < 16; j++)
-			{
-				for(int k = 0; k < 256; k++)
-				{
-					Block b = c.getBlock(i, k, j);
-
-					if(!b.isEmpty())
-					{
-						as.set(i, k, j, b.getTypeId(), b.getData());
-						as.setBlockLight(i, k, j, b.getLightFromBlocks());
-						as.setSkyLight(i, k, j, b.getLightFromSky());
-					}
-				}
-			}
-		}
-
-		return as;
+	@Override
+	public void sendChunkUnload(int x, int z, Chunk area)
+	{
+		sendPacket(new PacketPlayOutUnloadChunk(x, z));
 	}
 }

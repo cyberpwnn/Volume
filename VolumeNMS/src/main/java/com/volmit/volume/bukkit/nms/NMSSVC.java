@@ -252,13 +252,24 @@ public class NMSSVC implements IService, IAdapter
 	}
 
 	@Override
-	public AbstractChunk copy(Chunk c)
+	public void sendChunkUnload(int x, int z, Player p)
 	{
 		if(!hasBinding())
 		{
-			return new AbstractChunk();
+			return;
 		}
 
-		return ia.copy(c);
+		ia.sendChunkUnload(x, z, p);
+	}
+
+	@Override
+	public void sendChunkUnload(int x, int z, Chunk area)
+	{
+		if(!hasBinding())
+		{
+			return;
+		}
+
+		ia.sendChunkUnload(x, z, area);
 	}
 }

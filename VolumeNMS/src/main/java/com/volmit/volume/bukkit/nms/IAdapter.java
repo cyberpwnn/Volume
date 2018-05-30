@@ -13,7 +13,9 @@ import com.volmit.volume.bukkit.util.net.ProtocolRange;
 
 public interface IAdapter extends IPawn
 {
-	public AbstractChunk copy(Chunk c);
+	public void sendChunkUnload(int x, int z, Player p);
+
+	public void sendChunkUnload(int x, int z, Chunk area);
 
 	public void sendChunkMap(AbstractChunk c, Player p);
 

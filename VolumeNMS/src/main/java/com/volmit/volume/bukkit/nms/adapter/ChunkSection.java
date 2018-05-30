@@ -41,13 +41,14 @@ public final class ChunkSection
 	 * The number of bits per block used in the global palette.
 	 */
 	public static final int GLOBAL_PALETTE_BITS_PER_BLOCK = 13;
-
+	
 	/**
 	 * The palette.
 	 */
 	@Nullable
 	private IntList palette;
 	private VariableValueArray data;
+	
 	/**
 	 * The sky light array. This array is always set, even in dimensions without
 	 * skylight.

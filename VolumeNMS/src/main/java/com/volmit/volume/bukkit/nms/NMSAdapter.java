@@ -27,5 +27,4 @@ public abstract class NMSAdapter implements IAdapter
 	{
 		return pr;
 	}
-
 }

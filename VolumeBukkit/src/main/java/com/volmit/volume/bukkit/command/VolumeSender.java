@@ -4,6 +4,7 @@ import java.util.Set;
 
 import org.bukkit.Server;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionAttachment;
 import org.bukkit.permissions.PermissionAttachmentInfo;
@@ -30,6 +31,16 @@ public class VolumeSender implements CommandSender
 	public String getTag()
 	{
 		return tag;
+	}
+
+	public Player player()
+	{
+		return (Player) getS();
+	}
+
+	public CommandSender getS()
+	{
+		return s;
 	}
 
 	@Override
