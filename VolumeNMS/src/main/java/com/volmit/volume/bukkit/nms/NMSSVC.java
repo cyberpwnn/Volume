@@ -272,4 +272,15 @@ public class NMSSVC implements IService, IAdapter
 
 		ia.sendChunkUnload(x, z, area);
 	}
+
+	@Override
+	public void generateChunk(World world, int x, int z)
+	{
+		if(!hasBinding())
+		{
+			return;
+		}
+
+		ia.generateChunk(world, x, z);
+	}
 }

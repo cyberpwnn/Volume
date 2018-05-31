@@ -310,4 +310,10 @@ public class NMSA11 extends NMSAdapter
 	{
 		sendPacket(new PacketPlayOutUnloadChunk(x, z));
 	}
+
+	@Override
+	public void generateChunk(World world, int x, int z)
+	{
+		world.loadChunk(x, z, true);
+	}
 }

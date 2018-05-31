@@ -352,4 +352,10 @@ public class NMSA12 extends NMSAdapter
 			}
 		}
 	}
+
+	@Override
+	public void generateChunk(World world, int x, int z)
+	{
+		world.loadChunk(x, z, true);
+	}
 }

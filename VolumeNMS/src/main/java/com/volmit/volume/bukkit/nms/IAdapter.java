@@ -13,6 +13,8 @@ import com.volmit.volume.bukkit.util.net.ProtocolRange;
 
 public interface IAdapter extends IPawn
 {
+	public void generateChunk(World world, int x, int z);
+
 	public void sendChunkUnload(int x, int z, Player p);
 
 	public void sendChunkUnload(int x, int z, Chunk area);
