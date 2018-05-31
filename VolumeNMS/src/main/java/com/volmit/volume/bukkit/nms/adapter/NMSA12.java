@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.v1_12_R1.CraftChunk;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftCreature;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
@@ -34,8 +35,11 @@ import net.minecraft.server.v1_12_R1.NBTTagCompound;
 import net.minecraft.server.v1_12_R1.NavigationAbstract;
 import net.minecraft.server.v1_12_R1.Packet;
 import net.minecraft.server.v1_12_R1.PacketPlayInSettings;
+import net.minecraft.server.v1_12_R1.PacketPlayOutAnimation;
+import net.minecraft.server.v1_12_R1.PacketPlayOutBlockBreakAnimation;
 import net.minecraft.server.v1_12_R1.PacketPlayOutCollect;
 import net.minecraft.server.v1_12_R1.PacketPlayOutMapChunk;
+import net.minecraft.server.v1_12_R1.PacketPlayOutSpawnEntityExperienceOrb;
 import net.minecraft.server.v1_12_R1.PacketPlayOutUnloadChunk;
 import net.minecraft.server.v1_12_R1.PathEntity;
 import net.minecraft.server.v1_12_R1.TileEntity;
@@ -51,6 +55,44 @@ public class NMSA12 extends NMSAdapter
 		super(Protocol.R1_12, Protocol.R1_12_2);
 		packetHandlers = new GList<IPacketHandler>();
 		viewDistance = new GMap<Player, Integer>();
+	}
+
+	public void sendSpawnExperienceOrb(Player p, int eid, Location l, int reward)
+	{
+		PacketPlayOutSpawnEntityExperienceOrb orb = new PacketPlayOutSpawnEntityExperienceOrb();
+		new V(orb).set("a", eid);
+		new V(orb).set("b", l.getX());
+		new V(orb).set("c", l.getY());
+		new V(orb).set("d", l.getZ());
+		new V(orb).set("e", reward);
+		sendPacket(orb, p);
+	}
+
+	public void sendAnimation(int eid, AnimationType a, Player p)
+	{
+		PacketPlayOutAnimation an = new PacketPlayOutAnimation();
+		new V(an).set("a", eid);
+		new V(an).set("b", a.ordinal());
+		sendPacket(an, p);
+	}
+
+	public void sendAnimation(Entity e, AnimationType a, Player p)
+	{
+		sendAnimation(e.getEntityId(), a, p);
+	}
+
+	public void sendBlockBreakProgress(int eid, Block b, int stage, Player p)
+	{
+		PacketPlayOutBlockBreakAnimation an = new PacketPlayOutBlockBreakAnimation();
+		new V(an).set("a", eid);
+		new V(an).set("b", new BlockPosition(b.getX(), b.getY(), b.getZ()));
+		new V(an).set("c", stage);
+		sendPacket(an, p);
+	}
+
+	public void sendBlockBreakProgress(int eid, Block b, double percent, Player p)
+	{
+		sendBlockBreakProgress(eid, b, (int) (percent * 10.0), p);
 	}
 
 	@Start

@@ -608,14 +608,14 @@ public final class ChunkSection
 		{
 			throw new IllegalStateException("Can't write empty sections");
 		}
-
+	
 		boas.write(data.getBitsPerValue());
-
+	
 		if(palette == null)
 		{
 			writeVarInt(boas, 0); // Palette size -> 0 -> Use the global palette
 		}
-
+	
 		else
 		{
 			writeVarInt(boas, palette.size()); // Palette size
@@ -626,17 +626,17 @@ public final class ChunkSection
 				writeVarInt(boas, itr.nextInt()); // The palette entry
 			}
 		}
-
+	
 		long[] backing = data.getBacking();
 		writeVarInt(boas, backing.length);
-
+	
 		for(long value : backing)
 		{
 			writeLong(boas, value);
 		}
-
+	
 		boas.write(blockLight.getRawData());
-
+	
 		if(skylight)
 		{
 			boas.write(skyLight.getRawData());
