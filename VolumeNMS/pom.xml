@@ -44,45 +44,33 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>nms</groupId>
-			<artifactId>nms12</artifactId>
-			<scope>system</scope>
-			<systemPath>${nms.libs}/craftbukkit-1.12.2.jar</systemPath>
+			<groupId>org.bukkit.craftbukkit</groupId>
+			<artifactId>craftbukkit</artifactId>
 			<version>1.12.2</version>
 		</dependency>
 		<dependency>
-			<groupId>nms</groupId>
-			<artifactId>nms11</artifactId>
-			<scope>system</scope>
-			<systemPath>${nms.libs}/craftbukkit-1.11.2.jar</systemPath>
+			<groupId>org.bukkit.craftbukkit</groupId>
+			<artifactId>craftbukkit</artifactId>
 			<version>1.11.2</version>
 		</dependency>
 		<dependency>
-			<groupId>nms</groupId>
-			<artifactId>nms10</artifactId>
-			<scope>system</scope>
-			<systemPath>${nms.libs}/craftbukkit-1.10.2.jar</systemPath>
+			<groupId>org.bukkit.craftbukkit</groupId>
+			<artifactId>craftbukkit</artifactId>
 			<version>1.10.2</version>
 		</dependency>
 		<dependency>
-			<groupId>nms</groupId>
-			<artifactId>nms94</artifactId>
-			<scope>system</scope>
-			<systemPath>${nms.libs}/craftbukkit-1.9.4.jar</systemPath>
+			<groupId>org.bukkit.craftbukkit</groupId>
+			<artifactId>craftbukkit</artifactId>
 			<version>1.9.4</version>
 		</dependency>
 		<dependency>
-			<groupId>nms</groupId>
-			<artifactId>nms92</artifactId>
-			<scope>system</scope>
-			<systemPath>${nms.libs}/craftbukkit-1.9.2.jar</systemPath>
+			<groupId>org.bukkit.craftbukkit</groupId>
+			<artifactId>craftbukkit</artifactId>
 			<version>1.9.2</version>
 		</dependency>
 		<dependency>
-			<groupId>nms</groupId>
-			<artifactId>nms8</artifactId>
-			<scope>system</scope>
-			<systemPath>${nms.libs}/craftbukkit-1.8.8.jar</systemPath>
+			<groupId>org.bukkit.craftbukkit</groupId>
+			<artifactId>craftbukkit</artifactId>
 			<version>1.8.8</version>
 		</dependency>
 		<dependency>
