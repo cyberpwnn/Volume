@@ -4,8 +4,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.v1_12_R1.CraftChunk;
+import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftCreature;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.Creature;
@@ -22,6 +22,7 @@ import com.volmit.volume.bukkit.pawn.Start;
 import com.volmit.volume.bukkit.pawn.Stop;
 import com.volmit.volume.bukkit.task.SR;
 import com.volmit.volume.bukkit.util.net.Protocol;
+import com.volmit.volume.bukkit.util.world.MaterialBlock;
 import com.volmit.volume.lang.collections.FinalInteger;
 import com.volmit.volume.lang.collections.GList;
 import com.volmit.volume.lang.collections.GMap;
@@ -31,15 +32,13 @@ import com.volmit.volume.reflect.V;
 import net.minecraft.server.v1_12_R1.BlockPosition;
 import net.minecraft.server.v1_12_R1.EntityAnimal;
 import net.minecraft.server.v1_12_R1.EntityInsentient;
+import net.minecraft.server.v1_12_R1.IBlockData;
 import net.minecraft.server.v1_12_R1.NBTTagCompound;
 import net.minecraft.server.v1_12_R1.NavigationAbstract;
 import net.minecraft.server.v1_12_R1.Packet;
 import net.minecraft.server.v1_12_R1.PacketPlayInSettings;
-import net.minecraft.server.v1_12_R1.PacketPlayOutAnimation;
-import net.minecraft.server.v1_12_R1.PacketPlayOutBlockBreakAnimation;
 import net.minecraft.server.v1_12_R1.PacketPlayOutCollect;
 import net.minecraft.server.v1_12_R1.PacketPlayOutMapChunk;
-import net.minecraft.server.v1_12_R1.PacketPlayOutSpawnEntityExperienceOrb;
 import net.minecraft.server.v1_12_R1.PacketPlayOutUnloadChunk;
 import net.minecraft.server.v1_12_R1.PathEntity;
 import net.minecraft.server.v1_12_R1.TileEntity;
@@ -57,42 +56,26 @@ public class NMSA12 extends NMSAdapter
 		viewDistance = new GMap<Player, Integer>();
 	}
 
-	public void sendSpawnExperienceOrb(Player p, int eid, Location l, int reward)
+	@SuppressWarnings("deprecation")
+	@Override
+	public void setBlock(Location l, MaterialBlock m)
 	{
-		PacketPlayOutSpawnEntityExperienceOrb orb = new PacketPlayOutSpawnEntityExperienceOrb();
-		new V(orb).set("a", eid);
-		new V(orb).set("b", l.getX());
-		new V(orb).set("c", l.getY());
-		new V(orb).set("d", l.getZ());
-		new V(orb).set("e", reward);
-		sendPacket(orb, p);
-	}
+		int x = l.getBlockX();
+		int y = l.getBlockY();
+		int z = l.getBlockZ();
+		net.minecraft.server.v1_12_R1.World w = ((CraftWorld) l.getWorld()).getHandle();
+		net.minecraft.server.v1_12_R1.Chunk chunk = w.getChunkAt(x >> 4, z >> 4);
+		int combined = m.getMaterial().getId() + (m.getData() << 12);
+		IBlockData ibd = net.minecraft.server.v1_12_R1.Block.getByCombinedId(combined);
 
-	public void sendAnimation(int eid, AnimationType a, Player p)
-	{
-		PacketPlayOutAnimation an = new PacketPlayOutAnimation();
-		new V(an).set("a", eid);
-		new V(an).set("b", a.ordinal());
-		sendPacket(an, p);
-	}
+		if(chunk.getSections()[y >> 4] == null)
+		{
+			chunk.getSections()[y >> 4] = new net.minecraft.server.v1_12_R1.ChunkSection(y >> 4 << 4, chunk.world.worldProvider.m());
+		}
 
-	public void sendAnimation(Entity e, AnimationType a, Player p)
-	{
-		sendAnimation(e.getEntityId(), a, p);
-	}
-
-	public void sendBlockBreakProgress(int eid, Block b, int stage, Player p)
-	{
-		PacketPlayOutBlockBreakAnimation an = new PacketPlayOutBlockBreakAnimation();
-		new V(an).set("a", eid);
-		new V(an).set("b", new BlockPosition(b.getX(), b.getY(), b.getZ()));
-		new V(an).set("c", stage);
-		sendPacket(an, p);
-	}
-
-	public void sendBlockBreakProgress(int eid, Block b, double percent, Player p)
-	{
-		sendBlockBreakProgress(eid, b, (int) (percent * 10.0), p);
+		net.minecraft.server.v1_12_R1.ChunkSection sec = chunk.getSections()[y >> 4];
+		sec.setType(x & 15, y & 15, z & 15, ibd);
+		sec.a(x & 15, y & 15, z & 15, 15);
 	}
 
 	@Start
@@ -357,5 +340,17 @@ public class NMSA12 extends NMSAdapter
 	public void generateChunk(World world, int x, int z)
 	{
 		world.loadChunk(x, z, true);
+	}
+
+	@Override
+	public void queueChunkUpdate(Chunk c)
+	{
+		getChunkQueue().queue(c);
+	}
+
+	@Override
+	public void relight(Chunk c)
+	{
+		((CraftChunk) c).getHandle().initLighting();
 	}
 }

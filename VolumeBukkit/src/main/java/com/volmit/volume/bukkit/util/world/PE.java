@@ -78,8 +78,6 @@ public class PE extends PotionEffect
 	@Override
 	public boolean apply(LivingEntity entity)
 	{
-		entity.removePotionEffect(getType());
-
 		return super.apply(entity);
 	}
 

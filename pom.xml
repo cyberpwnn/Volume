@@ -18,6 +18,8 @@
 		<module>VolumePlugin</module>
 		<module>VolumeDL4J</module>
 		<module>VolumeMemoryAgent</module>
+		<module>VolumeNet</module>
+		<module>VolumeRedis</module>
 	</modules>
 	<properties>
 		<project.source>The Internet</project.source>

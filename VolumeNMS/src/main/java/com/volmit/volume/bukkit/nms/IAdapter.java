@@ -8,11 +8,19 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 import com.volmit.volume.bukkit.nms.adapter.AbstractChunk;
+import com.volmit.volume.bukkit.nms.adapter.ChunkSendQueue;
 import com.volmit.volume.bukkit.pawn.IPawn;
 import com.volmit.volume.bukkit.util.net.ProtocolRange;
+import com.volmit.volume.bukkit.util.world.MaterialBlock;
 
 public interface IAdapter extends IPawn
 {
+	public void relight(Chunk c);
+
+	public void queueChunkUpdate(Chunk c);
+
+	public void setBlock(Location l, MaterialBlock m);
+
 	public void generateChunk(World world, int x, int z);
 
 	public void sendChunkUnload(int x, int z, Player p);
@@ -48,6 +56,8 @@ public interface IAdapter extends IPawn
 	public boolean canSee(Player player, Chunk chunk);
 
 	public void sendPickup(Entity drop, Entity who);
+
+	public ChunkSendQueue getChunkQueue();
 
 	public static boolean isWithin(Chunk center, Chunk check, int viewDistance)
 	{

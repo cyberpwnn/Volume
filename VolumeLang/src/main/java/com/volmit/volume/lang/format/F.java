@@ -395,6 +395,43 @@ public class F
 		return F.f(d, dec) + " " + sub;
 	}
 
+	public static String ofSizeGram(long s, int div, int dec)
+	{
+		boolean neg = s < 0;
+		if(neg)
+		{
+			s = -s;
+		}
+		Double d = (double) s;
+		String sub = "Grams";
+
+		if(d > div - 1)
+		{
+			d /= div;
+			sub = "KG";
+
+			if(d > div - 1)
+			{
+				d /= div;
+				sub = "TG";
+
+				if(d > div - 1)
+				{
+					d /= div;
+					sub = "TG";
+
+					if(d > div - 1)
+					{
+						d /= div;
+						sub = "MG";
+					}
+				}
+			}
+		}
+
+		return (neg ? "-" : "") + F.f(d, dec) + " " + sub;
+	}
+
 	/**
 	 * Trim a string to a length, then append ... at the end if it extends the limit
 	 *

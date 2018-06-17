@@ -210,7 +210,7 @@ public class GList<T> extends ArrayList<T>
 		GList<GList<T>> mtt = new GList<GList<T>>();
 		int d = size() / v < 1 ? 1 : size() / v;
 
-		for(int i = 0; i < v; i++)
+		for(int i = 0; i < v + 1; i++)
 		{
 			GList<T> l = new GList<T>();
 

@@ -70,7 +70,7 @@ public class VirtualCommand
 			return command.handle(vs, new String[0]);
 		}
 
-		String nl = chain.pop();
+		String nl = chain.get(0);
 
 		for(GList<String> i : children.k())
 		{
@@ -79,8 +79,9 @@ public class VirtualCommand
 				if(j.equalsIgnoreCase(nl))
 				{
 					VirtualCommand cmd = children.get(i);
-
-					if(cmd.hit(sender, chain.copy()))
+					GList<String> c = chain.copy();
+					c.remove(0);
+					if(cmd.hit(sender, c))
 					{
 						return true;
 					}

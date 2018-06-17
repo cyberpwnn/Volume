@@ -5,6 +5,7 @@ import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.craftbukkit.v1_10_R1.CraftChunk;
+import org.bukkit.craftbukkit.v1_10_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_10_R1.entity.CraftCreature;
 import org.bukkit.craftbukkit.v1_10_R1.entity.CraftPlayer;
 import org.bukkit.entity.Creature;
@@ -21,6 +22,7 @@ import com.volmit.volume.bukkit.pawn.Start;
 import com.volmit.volume.bukkit.pawn.Stop;
 import com.volmit.volume.bukkit.task.SR;
 import com.volmit.volume.bukkit.util.net.Protocol;
+import com.volmit.volume.bukkit.util.world.MaterialBlock;
 import com.volmit.volume.lang.collections.FinalInteger;
 import com.volmit.volume.lang.collections.GList;
 import com.volmit.volume.lang.collections.GMap;
@@ -30,6 +32,7 @@ import com.volmit.volume.reflect.V;
 import net.minecraft.server.v1_10_R1.BlockPosition;
 import net.minecraft.server.v1_10_R1.EntityAnimal;
 import net.minecraft.server.v1_10_R1.EntityInsentient;
+import net.minecraft.server.v1_10_R1.IBlockData;
 import net.minecraft.server.v1_10_R1.NBTTagCompound;
 import net.minecraft.server.v1_10_R1.NavigationAbstract;
 import net.minecraft.server.v1_10_R1.Packet;
@@ -51,6 +54,21 @@ public class NMSA10 extends NMSAdapter
 		super(Protocol.R1_12, Protocol.R1_12_2);
 		packetHandlers = new GList<IPacketHandler>();
 		viewDistance = new GMap<Player, Integer>();
+	}
+
+	@Override
+	public void setBlock(Location l, MaterialBlock m)
+	{
+		int x = l.getBlockX();
+		int y = l.getBlockY();
+		int z = l.getBlockZ();
+		net.minecraft.server.v1_10_R1.World w = ((CraftWorld) l.getWorld()).getHandle();
+		net.minecraft.server.v1_10_R1.Chunk chunk = w.getChunkAt(x >> 4, z >> 4);
+		BlockPosition bp = new BlockPosition(x, y, z);
+		@SuppressWarnings("deprecation")
+		int combined = m.getMaterial().getId() + (m.getData() << 12);
+		IBlockData ibd = net.minecraft.server.v1_10_R1.Block.getByCombinedId(combined);
+		chunk.a(bp, ibd);
 	}
 
 	@Start
@@ -103,6 +121,7 @@ public class NMSA10 extends NMSAdapter
 			sendPacket(packet, i);
 		}
 	}
+
 	@Override
 	public void sendChunkMap(AbstractChunk c, Player p)
 	{
@@ -314,5 +333,17 @@ public class NMSA10 extends NMSAdapter
 	public void generateChunk(World world, int x, int z)
 	{
 		world.loadChunk(x, z, true);
+	}
+
+	@Override
+	public void queueChunkUpdate(Chunk c)
+	{
+		getChunkQueue().queue(c);
+	}
+
+	@Override
+	public void relight(Chunk c)
+	{
+		((CraftChunk) c).getHandle().initLighting();
 	}
 }

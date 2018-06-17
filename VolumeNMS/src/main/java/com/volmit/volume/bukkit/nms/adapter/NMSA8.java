@@ -21,6 +21,7 @@ import com.volmit.volume.bukkit.pawn.Start;
 import com.volmit.volume.bukkit.pawn.Stop;
 import com.volmit.volume.bukkit.task.SR;
 import com.volmit.volume.bukkit.util.net.Protocol;
+import com.volmit.volume.bukkit.util.world.MaterialBlock;
 import com.volmit.volume.lang.collections.FinalInteger;
 import com.volmit.volume.lang.collections.GList;
 import com.volmit.volume.lang.collections.GMap;
@@ -313,5 +314,25 @@ public class NMSA8 extends NMSAdapter
 	public void generateChunk(World world, int x, int z)
 	{
 		world.loadChunk(x, z, true);
+	}
+
+	@SuppressWarnings("deprecation")
+	@Override
+	public void setBlock(Location l, MaterialBlock m)
+	{
+		l.getBlock().setType(m.getMaterial());
+		l.getBlock().setData(m.getData());
+	}
+
+	@Override
+	public void queueChunkUpdate(Chunk c)
+	{
+		getChunkQueue().queue(c);
+	}
+
+	@Override
+	public void relight(Chunk c)
+	{
+		((CraftChunk) c).getHandle().initLighting();
 	}
 }

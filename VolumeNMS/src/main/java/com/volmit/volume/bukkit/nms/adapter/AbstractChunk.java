@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import org.bukkit.Chunk;
+import org.bukkit.Material;
 import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
 
@@ -48,8 +49,8 @@ public class AbstractChunk
 					if(!b.isEmpty())
 					{
 						set(i, k, j, b.getTypeId(), b.getData());
-						setBlockLight(i, k, j, b.getLightFromBlocks());
-						setSkyLight(i, k, j, b.getLightFromSky());
+						setBlockLight(i, k, j, (byte) (b.getLightFromBlocks() * 15));
+						setSkyLight(i, k, j, (byte) (b.getLightFromSky() * 15));
 					}
 				}
 
@@ -109,6 +110,69 @@ public class AbstractChunk
 		for(int i = 0; i < sections.length; i++)
 		{
 			ensureSection(i);
+		}
+	}
+
+	@SuppressWarnings("deprecation")
+	public void relightFast()
+	{
+		int highest = -1;
+
+		for(int i = 15; i >= 0; i--)
+		{
+			if(sections[i] != null && !sections[i].isEmpty())
+			{
+				highest = (i * 16) + 16;
+				break;
+			}
+		}
+
+		if(highest == -1)
+		{
+			return;
+		}
+
+		highest = highest > 255 ? 255 : highest;
+
+		for(int j = 0; j < 16; j++)
+		{
+			for(int k = 0; k < 16; k++)
+			{
+				int sl = 15;
+				boolean solid = false;
+				boolean trans = false;
+
+				for(int i = highest; i >= 0; i++)
+				{
+					int s = getSection(i);
+
+					if(s > 15)
+					{
+						continue;
+					}
+
+					if(sections[s] != null && !sections[s].isEmpty())
+					{
+						Material mat = Material.getMaterial(IDUtils.getId(sections[s].getType(j, i, k)));
+
+						if(!solid && mat.isOccluding())
+						{
+							solid = true;
+						}
+
+						if(!trans && !mat.isOccluding() && mat.isSolid())
+						{
+							trans = true;
+						}
+
+						sl = solid ? 0 : sl;
+						sl = trans ? sl - 1 : sl;
+						sl = sl < 0 ? 0 : sl;
+						sl = sl > 15 ? 15 : sl;
+						sections[s].setSkyLight(j, getSectionY(i), k, (byte) sl);
+					}
+				}
+			}
 		}
 	}
 

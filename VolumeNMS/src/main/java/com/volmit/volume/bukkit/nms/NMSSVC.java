@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import com.volmit.volume.bukkit.L;
 import com.volmit.volume.bukkit.U;
 import com.volmit.volume.bukkit.nms.adapter.AbstractChunk;
+import com.volmit.volume.bukkit.nms.adapter.ChunkSendQueue;
 import com.volmit.volume.bukkit.nms.adapter.NMSA10;
 import com.volmit.volume.bukkit.nms.adapter.NMSA11;
 import com.volmit.volume.bukkit.nms.adapter.NMSA12;
@@ -21,6 +22,7 @@ import com.volmit.volume.bukkit.pawn.Stop;
 import com.volmit.volume.bukkit.service.IService;
 import com.volmit.volume.bukkit.util.net.Protocol;
 import com.volmit.volume.bukkit.util.net.ProtocolRange;
+import com.volmit.volume.bukkit.util.world.MaterialBlock;
 
 public class NMSSVC implements IService, IAdapter
 {
@@ -282,5 +284,49 @@ public class NMSSVC implements IService, IAdapter
 		}
 
 		ia.generateChunk(world, x, z);
+	}
+
+	@Override
+	public void setBlock(Location l, MaterialBlock m)
+	{
+		if(!hasBinding())
+		{
+			return;
+		}
+
+		ia.setBlock(l, m);
+	}
+
+	@Override
+	public void queueChunkUpdate(Chunk c)
+	{
+		if(!hasBinding())
+		{
+			return;
+		}
+
+		ia.queueChunkUpdate(c);
+	}
+
+	@Override
+	public ChunkSendQueue getChunkQueue()
+	{
+		if(!hasBinding())
+		{
+			return null;
+		}
+
+		return ia.getChunkQueue();
+	}
+
+	@Override
+	public void relight(Chunk c)
+	{
+		if(!hasBinding())
+		{
+			return;
+		}
+
+		ia.relight(c);
 	}
 }
