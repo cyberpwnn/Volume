@@ -23,12 +23,12 @@
 	</distributionManagement>
 	<repositories>
 		<repository>
-			<id>central</id>
-			<url>http://repo1.maven.org/maven2</url>
-		</repository>
-		<repository>
 			<id>spigot-repo</id>
 			<url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+		</repository>
+		<repository>
+			<id>volmit</id>
+			<url>http://nexus.volmit.com/content/repositories/volmit</url>
 		</repository>
 	</repositories>
 	<dependencies>
@@ -45,33 +45,39 @@
 		</dependency>
 		<dependency>
 			<groupId>org.bukkit.craftbukkit</groupId>
-			<artifactId>craftbukkit</artifactId>
+			<artifactId>craftbukkit12</artifactId>
 			<version>1.12.2</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.bukkit.craftbukkit</groupId>
-			<artifactId>craftbukkit</artifactId>
+			<artifactId>craftbukkit11</artifactId>
 			<version>1.11.2</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.bukkit.craftbukkit</groupId>
-			<artifactId>craftbukkit</artifactId>
+			<artifactId>craftbukkit10</artifactId>
 			<version>1.10.2</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.bukkit.craftbukkit</groupId>
-			<artifactId>craftbukkit</artifactId>
+			<artifactId>craftbukkit94</artifactId>
 			<version>1.9.4</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.bukkit.craftbukkit</groupId>
-			<artifactId>craftbukkit</artifactId>
+			<artifactId>craftbukkit92</artifactId>
 			<version>1.9.2</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.bukkit.craftbukkit</groupId>
-			<artifactId>craftbukkit</artifactId>
+			<artifactId>craftbukkit8</artifactId>
 			<version>1.8.8</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
