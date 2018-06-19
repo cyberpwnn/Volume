@@ -26,6 +26,7 @@ import com.volmit.volume.bukkit.util.world.MaterialBlock;
 import com.volmit.volume.lang.collections.FinalInteger;
 import com.volmit.volume.lang.collections.GList;
 import com.volmit.volume.lang.collections.GMap;
+import com.volmit.volume.lang.collections.GSet;
 import com.volmit.volume.math.M;
 import com.volmit.volume.reflect.V;
 
@@ -344,5 +345,89 @@ public class NMSA92 extends NMSAdapter
 	public void relight(Chunk c)
 	{
 		((CraftChunk) c).getHandle().initLighting();
+	}
+
+	private int getBitMask(boolean[] sections)
+	{
+		int bitMask = 0;
+
+		for(int section = 0; section < sections.length; section++)
+		{
+			if(sections[section])
+			{
+				bitMask += 1 << section;
+			}
+		}
+
+		return bitMask;
+	}
+
+	private boolean[] getBitMask(int... sections)
+	{
+		boolean[] m = new boolean[16];
+
+		for(int i : sections)
+		{
+			m[i] = true;
+		}
+
+		return m;
+	}
+
+	private boolean[] getBitMaskFT(int from, int to)
+	{
+		boolean[] m = new boolean[16];
+
+		for(int i = from; i <= to; i++)
+		{
+			m[i] = true;
+		}
+
+		return m;
+	}
+
+	@Override
+	public void updateSection(Chunk c, int section)
+	{
+		// TODO real skylight check
+		sendPacket(new PacketPlayOutMapChunk(((CraftChunk) c).getHandle(), true, getBitMask(getBitMask(section))), c);
+	}
+
+	@Override
+	public void updateSections(Chunk c, int from, int to)
+	{
+		// TODO real skylight check
+		sendPacket(new PacketPlayOutMapChunk(((CraftChunk) c).getHandle(), true, getBitMask(getBitMaskFT(from, to))), c);
+	}
+
+	@Override
+	public void queueSection(Chunk c, int section)
+	{
+		getChunkQueue().queueSection(c, section);
+	}
+
+	@Override
+	public void queueSection(Location c)
+	{
+		queueSection(c.getChunk(), c.getBlockY() >> 4);
+	}
+
+	@Override
+	public void updateSections(Chunk c, GSet<Integer> v)
+	{
+		// TODO real skylight check
+		sendPacket(new PacketPlayOutMapChunk(((CraftChunk) c).getHandle(), true, getBitMask(getBitMask(v))), c);
+	}
+
+	private boolean[] getBitMask(GSet<Integer> v)
+	{
+		boolean[] m = new boolean[16];
+
+		for(int i : v)
+		{
+			m[i] = true;
+		}
+
+		return m;
 	}
 }

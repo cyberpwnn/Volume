@@ -8,10 +8,13 @@ import com.volmit.volume.bukkit.task.A;
 import com.volmit.volume.bukkit.task.S;
 import com.volmit.volume.bukkit.task.SR;
 import com.volmit.volume.lang.collections.GList;
+import com.volmit.volume.lang.collections.GMap;
+import com.volmit.volume.lang.collections.GSet;
 
 public class ChunkSendQueue
 {
 	private GList<Chunk> c = new GList<Chunk>();
+	private GMap<Chunk, GSet<Integer>> sections;
 	private boolean running;
 	private SR s;
 	private int interval;
@@ -22,6 +25,7 @@ public class ChunkSendQueue
 		this.interval = interval;
 		this.volume = volume;
 		c = new GList<Chunk>();
+		sections = new GMap<Chunk, GSet<Integer>>();
 		running = false;
 	}
 
@@ -32,6 +36,27 @@ public class ChunkSendQueue
 			@Override
 			public void run()
 			{
+				if(!sections.isEmpty())
+				{
+					int l = volume;
+
+					while(l > 0 && !sections.isEmpty())
+					{
+						Chunk c = sections.k().pop();
+						GSet<Integer> s = sections.get(c);
+
+						if(s.isEmpty())
+						{
+							sections.remove(c);
+							continue;
+						}
+
+						U.getService(NMSSVC.class).updateSections(c, s);
+						sections.remove(c);
+						l--;
+					}
+				}
+
 				if(c.isEmpty() || running)
 				{
 					return;
@@ -54,7 +79,6 @@ public class ChunkSendQueue
 					{
 						for(Chunk i : tosend)
 						{
-
 							new S()
 							{
 								@Override
@@ -89,5 +113,15 @@ public class ChunkSendQueue
 		{
 			this.c.add(c);
 		}
+	}
+
+	public void queueSection(Chunk c, int section)
+	{
+		if(!sections.containsKey(c))
+		{
+			sections.put(c, new GSet<Integer>());
+		}
+
+		sections.get(c).add(section);
 	}
 }

@@ -610,7 +610,7 @@ public final class ChunkSection
 		}
 	
 		boas.write(data.getBitsPerValue());
-	
+
 		if(palette == null)
 		{
 			writeVarInt(boas, 0); // Palette size -> 0 -> Use the global palette

@@ -6,8 +6,8 @@ import com.volmit.volume.bukkit.util.net.ProtocolRange;
 
 public abstract class NMSAdapter implements IAdapter
 {
-	public static int INTERVAL = 5;
-	public static int VOLUME = 5;
+	public static int INTERVAL = 1;
+	public static int VOLUME = 8;
 	private ProtocolRange pr;
 	private ChunkSendQueue chunkQueue;
 

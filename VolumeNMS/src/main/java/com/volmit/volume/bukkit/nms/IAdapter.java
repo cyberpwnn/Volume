@@ -12,9 +12,20 @@ import com.volmit.volume.bukkit.nms.adapter.ChunkSendQueue;
 import com.volmit.volume.bukkit.pawn.IPawn;
 import com.volmit.volume.bukkit.util.net.ProtocolRange;
 import com.volmit.volume.bukkit.util.world.MaterialBlock;
+import com.volmit.volume.lang.collections.GSet;
 
 public interface IAdapter extends IPawn
 {
+	public void updateSection(Chunk c, int section);
+
+	public void updateSections(Chunk c, int from, int to);
+
+	public void updateSections(Chunk c, GSet<Integer> v);
+
+	public void queueSection(Chunk c, int section);
+
+	public void queueSection(Location c);
+
 	public void relight(Chunk c);
 
 	public void queueChunkUpdate(Chunk c);

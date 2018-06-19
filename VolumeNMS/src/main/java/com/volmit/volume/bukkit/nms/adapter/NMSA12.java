@@ -23,9 +23,11 @@ import com.volmit.volume.bukkit.pawn.Stop;
 import com.volmit.volume.bukkit.task.SR;
 import com.volmit.volume.bukkit.util.net.Protocol;
 import com.volmit.volume.bukkit.util.world.MaterialBlock;
+import com.volmit.volume.bukkit.util.world.Players;
 import com.volmit.volume.lang.collections.FinalInteger;
 import com.volmit.volume.lang.collections.GList;
 import com.volmit.volume.lang.collections.GMap;
+import com.volmit.volume.lang.collections.GSet;
 import com.volmit.volume.math.M;
 import com.volmit.volume.reflect.V;
 
@@ -54,6 +56,69 @@ public class NMSA12 extends NMSAdapter
 		super(Protocol.R1_12, Protocol.R1_12_2);
 		packetHandlers = new GList<IPacketHandler>();
 		viewDistance = new GMap<Player, Integer>();
+	}
+
+	public void testChunks(Player p, String mode)
+	{
+		Location l = Players.targetBlock(p, 128);
+
+		if(mode.equalsIgnoreCase("full"))
+		{
+			AbstractChunk as = new AbstractChunk(l.getChunk());
+
+			for(int i = 0; i < 16; i++)
+			{
+				for(int j = 0; j < 256; j++)
+				{
+					if(as.getSections()[as.getSection(j)] == null)
+					{
+						continue;
+					}
+
+					for(int k = 0; k < 16; k++)
+					{
+						if(M.r(0.15))
+						{
+							as.set(i, j, k, 7, (byte) 0);
+						}
+					}
+				}
+			}
+
+			sendChunkMap(as, l.getChunk());
+		}
+
+		if(mode.equalsIgnoreCase("part"))
+		{
+			AbstractChunk as = new AbstractChunk();
+			int sy = as.getSection(l.getBlockY());
+			as.ensureSection(sy);
+
+			for(int i = 0; i < 16; i++)
+			{
+				for(int j = 0; j < 16; j++)
+				{
+					for(int k = 0; k < 16; k++)
+					{
+						if(M.r(0.15))
+						{
+							as.getSections()[sy].setType(i, j, k, 7, (byte) 0);
+						}
+					}
+				}
+			}
+
+			for(int i = 0; i < 16; i++)
+			{
+				if(as.getSections()[i] != null)
+				{
+					System.out.println("Section " + i + " exists");
+				}
+			}
+
+			System.out.println("Continuous: " + as.isContinuous());
+			sendChunkMap(as, l.getChunk());
+		}
 	}
 
 	@SuppressWarnings("deprecation")
@@ -352,5 +417,86 @@ public class NMSA12 extends NMSAdapter
 	public void relight(Chunk c)
 	{
 		((CraftChunk) c).getHandle().initLighting();
+	}
+
+	private int getBitMask(boolean[] sections)
+	{
+		int bitMask = 0;
+
+		for(int section = 0; section < sections.length; section++)
+		{
+			if(sections[section])
+			{
+				bitMask += 1 << section;
+			}
+		}
+
+		return bitMask;
+	}
+
+	private boolean[] getBitMask(int... sections)
+	{
+		boolean[] m = new boolean[16];
+
+		for(int i : sections)
+		{
+			m[i] = true;
+		}
+
+		return m;
+	}
+
+	private boolean[] getBitMaskFT(int from, int to)
+	{
+		boolean[] m = new boolean[16];
+
+		for(int i = from; i <= to; i++)
+		{
+			m[i] = true;
+		}
+
+		return m;
+	}
+
+	@Override
+	public void updateSection(Chunk c, int section)
+	{
+		sendPacket(new PacketPlayOutMapChunk(((CraftChunk) c).getHandle(), getBitMask(getBitMask(section))), c);
+	}
+
+	@Override
+	public void updateSections(Chunk c, int from, int to)
+	{
+		sendPacket(new PacketPlayOutMapChunk(((CraftChunk) c).getHandle(), getBitMask(getBitMaskFT(from, to))), c);
+	}
+
+	@Override
+	public void updateSections(Chunk c, GSet<Integer> v)
+	{
+		sendPacket(new PacketPlayOutMapChunk(((CraftChunk) c).getHandle(), getBitMask(getBitMask(v))), c);
+	}
+
+	private boolean[] getBitMask(GSet<Integer> v)
+	{
+		boolean[] m = new boolean[16];
+
+		for(int i : v)
+		{
+			m[i] = true;
+		}
+
+		return m;
+	}
+
+	@Override
+	public void queueSection(Chunk c, int section)
+	{
+		getChunkQueue().queueSection(c, section);
+	}
+
+	@Override
+	public void queueSection(Location c)
+	{
+		queueSection(c.getChunk(), c.getBlockY() >> 4);
 	}
 }

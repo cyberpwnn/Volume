@@ -23,10 +23,16 @@ import com.volmit.volume.bukkit.service.IService;
 import com.volmit.volume.bukkit.util.net.Protocol;
 import com.volmit.volume.bukkit.util.net.ProtocolRange;
 import com.volmit.volume.bukkit.util.world.MaterialBlock;
+import com.volmit.volume.lang.collections.GSet;
 
 public class NMSSVC implements IService, IAdapter
 {
 	private IAdapter ia;
+
+	public IAdapter adapter()
+	{
+		return ia;
+	}
 
 	@Start
 	public void start()
@@ -328,5 +334,60 @@ public class NMSSVC implements IService, IAdapter
 		}
 
 		ia.relight(c);
+	}
+
+	@Override
+	public void updateSection(Chunk c, int section)
+	{
+		if(!hasBinding())
+		{
+			return;
+		}
+
+		ia.updateSection(c, section);
+	}
+
+	@Override
+	public void updateSections(Chunk c, int from, int to)
+	{
+		if(!hasBinding())
+		{
+			return;
+		}
+
+		ia.updateSections(c, from, to);
+	}
+
+	@Override
+	public void queueSection(Chunk c, int section)
+	{
+		if(!hasBinding())
+		{
+			return;
+		}
+
+		ia.queueSection(c, section);
+	}
+
+	@Override
+	public void queueSection(Location c)
+	{
+		if(!hasBinding())
+		{
+			return;
+		}
+
+		ia.queueSection(c);
+	}
+
+	@Override
+	public void updateSections(Chunk c, GSet<Integer> v)
+	{
+		if(!hasBinding())
+		{
+			return;
+		}
+
+		ia.updateSections(c, v);
 	}
 }
