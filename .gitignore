@@ -16,6 +16,7 @@ VolumeNMS/target/
 VolumePlugin/target/
 VolumeDL4J/target/
 VolumeNet/target/
+VolumeLux/target/
 VolumeNMS/lib/
 
 # Eclipse & Maven

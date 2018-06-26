@@ -499,4 +499,11 @@ public class NMSA12 extends NMSAdapter
 	{
 		queueSection(c.getChunk(), c.getBlockY() >> 4);
 	}
+
+	@Override
+	public void injectBlockInstance(MaterialBlock mb, Object o)
+	{
+		// TODO Auto-generated method stub
+
+	}
 }

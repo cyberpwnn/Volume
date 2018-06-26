@@ -723,4 +723,12 @@ public class GList<T> extends ArrayList<T>
 		remove(t);
 		return t;
 	}
+
+	public void fill(T t, int amt)
+	{
+		for(int i = 0; i < amt; i++)
+		{
+			add(t);
+		}
+	}
 }

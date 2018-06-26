@@ -390,4 +390,15 @@ public class NMSSVC implements IService, IAdapter
 
 		ia.updateSections(c, v);
 	}
+
+	@Override
+	public void injectBlockInstance(MaterialBlock mb, Object o)
+	{
+		if(!hasBinding())
+		{
+			return;
+		}
+
+		ia.injectBlockInstance(mb, o);
+	}
 }

@@ -1,5 +1,6 @@
 package com.volmit.volume.cluster;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.volmit.volume.lang.collections.GList;
@@ -172,6 +173,11 @@ public class DataCluster implements IDataCluster
 		else if(c.equals(GList.class))
 		{
 			set(key, (GList<String>) o);
+		}
+
+		else if(c.equals(ArrayList.class))
+		{
+			set(key, new GList<String>((ArrayList<String>) o));
 		}
 
 		else if(c.equals(String.class))

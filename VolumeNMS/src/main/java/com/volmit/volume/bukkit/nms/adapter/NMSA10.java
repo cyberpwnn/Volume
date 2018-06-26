@@ -428,4 +428,11 @@ public class NMSA10 extends NMSAdapter
 
 		return m;
 	}
+
+	@Override
+	public void injectBlockInstance(MaterialBlock mb, Object o)
+	{
+		// TODO Auto-generated method stub
+
+	}
 }

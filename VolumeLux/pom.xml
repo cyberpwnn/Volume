@@ -6,6 +6,9 @@
 		<artifactId>Volume</artifactId>
 		<version>1.1</version>
 	</parent>
+	<artifactId>VolumeLux</artifactId>
+	<name>VolumeLux</name>
+	<description>Hue</description>
 	<properties>
 		<project.source>The Internet</project.source>
 		<maven.compiler.source>1.8</maven.compiler.source>
@@ -18,6 +21,26 @@
 			<url>http://nexus.volmit.com/content/repositories/volmit</url>
 		</repository>
 	</distributionManagement>
-	<artifactId>VolumeCore</artifactId>
-	<name>VolumeCore</name>
+	<dependencies>
+		<dependency>
+			<groupId>com.meethue</groupId>
+			<artifactId>HueLocalSDK</artifactId>
+			<version>1.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.meethue</groupId>
+			<artifactId>HueSDKResources</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.volmit</groupId>
+			<artifactId>VolumeLang</artifactId>
+			<version>1.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.volmit</groupId>
+			<artifactId>VolumeMath</artifactId>
+			<version>1.1</version>
+		</dependency>
+	</dependencies>
 </project>

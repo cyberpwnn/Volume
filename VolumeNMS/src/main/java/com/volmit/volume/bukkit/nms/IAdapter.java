@@ -16,6 +16,8 @@ import com.volmit.volume.lang.collections.GSet;
 
 public interface IAdapter extends IPawn
 {
+	public void injectBlockInstance(MaterialBlock mb, Object o);
+
 	public void updateSection(Chunk c, int section);
 
 	public void updateSections(Chunk c, int from, int to);
