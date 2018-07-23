@@ -1,6 +1,7 @@
 package com.volmit.volume.bukkit.services;
 
 import java.io.File;
+import java.util.function.Function;
 
 import com.volmit.volume.bukkit.L;
 import com.volmit.volume.bukkit.U;
@@ -15,12 +16,14 @@ import com.volmit.volume.lang.collections.GMap;
 public class ClusterSVC implements IService
 {
 	public GMap<File, IPawn> pawns;
+	public GMap<File, Function<File, Boolean>> rrs;
 	public GMap<File, Long> vals;
 
 	@Start
 	public void onStart()
 	{
 		pawns = new GMap<File, IPawn>();
+		rrs = new GMap<File, Function<File, Boolean>>();
 		vals = new GMap<File, Long>();
 	}
 
@@ -53,12 +56,34 @@ public class ClusterSVC implements IService
 				}
 			}
 		}
+
+		for(File i : vals.k())
+		{
+			if(!pawns.containsKey(i))
+			{
+				if(!i.exists() || !vals.containsKey(i) || vals.get(i) != i.lastModified() + i.length())
+				{
+					try
+					{
+						vals.put(i, i.lastModified() + i.length());
+						L.l("Injected Config -> " + i.getPath());
+						rrs.get(i).apply(i);
+					}
+
+					catch(Exception e)
+					{
+						e.printStackTrace();
+					}
+				}
+			}
+		}
 	}
 
 	public void unbind(File file)
 	{
 		pawns.remove(file);
 		vals.remove(file);
+		rrs.remove(file);
 	}
 
 	public File getFile(IPawn pawn)
@@ -79,7 +104,6 @@ public class ClusterSVC implements IService
 		File ff = getFile(pawn);
 		unbind(ff);
 		L.l("Unbound Config " + pawn.getClass().getSimpleName() + " -/> " + ff.getPath());
-
 	}
 
 	public void bind(File file, IPawn pawn)
@@ -87,6 +111,14 @@ public class ClusterSVC implements IService
 		file.getParentFile().mkdirs();
 		L.l("Binding Config " + pawn.getClass().getSimpleName() + " -> " + file.getPath());
 		pawns.put(file, pawn);
+	}
+
+	public void bind(File file, Function<File, Boolean> r)
+	{
+		file.getParentFile().mkdirs();
+		L.l("Binding Config " + rrs.getClass().getSimpleName() + " -> " + file.getPath());
+		rrs.put(file, r);
+		vals.put(file, file.lastModified() + file.length());
 	}
 
 	@Override

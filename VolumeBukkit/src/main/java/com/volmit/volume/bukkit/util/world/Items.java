@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import com.volmit.volume.lang.collections.GList;
@@ -434,6 +435,21 @@ public class Items
 			}
 
 			return true;
+		}
+
+		return false;
+	}
+
+	public static boolean addItem(Player player, ItemStack is)
+	{
+		for(int i = 0; i < 9; i++)
+		{
+			if(player.getInventory().getItem(i) == null)
+			{
+				player.getInventory().setHeldItemSlot(i);
+				player.getInventory().setItem(i, is);
+				return true;
+			}
 		}
 
 		return false;

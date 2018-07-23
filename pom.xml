@@ -21,6 +21,7 @@
 		<module>VolumeNet</module>
 		<module>VolumeRedis</module>
 		<module>VolumeLux</module>
+		<module>VolumeJOOQ</module>
 	</modules>
 	<properties>
 		<project.source>The Internet</project.source>

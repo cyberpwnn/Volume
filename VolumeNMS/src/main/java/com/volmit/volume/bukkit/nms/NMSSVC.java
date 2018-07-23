@@ -1,11 +1,15 @@
 package com.volmit.volume.bukkit.nms;
 
+import java.util.UUID;
+
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffectType;
+import org.bukkit.util.Vector;
 
 import com.volmit.volume.bukkit.L;
 import com.volmit.volume.bukkit.U;
@@ -22,6 +26,7 @@ import com.volmit.volume.bukkit.pawn.Stop;
 import com.volmit.volume.bukkit.service.IService;
 import com.volmit.volume.bukkit.util.net.Protocol;
 import com.volmit.volume.bukkit.util.net.ProtocolRange;
+import com.volmit.volume.bukkit.util.text.C;
 import com.volmit.volume.bukkit.util.world.MaterialBlock;
 import com.volmit.volume.lang.collections.GSet;
 
@@ -400,5 +405,346 @@ public class NMSSVC implements IService, IAdapter
 		}
 
 		ia.injectBlockInstance(mb, o);
+	}
+
+	@Override
+	public void scroll(Player sender, int previous)
+	{
+		if(!hasBinding())
+		{
+			return;
+		}
+
+		ia.scroll(sender, previous);
+	}
+
+	@Override
+	public int getAction(Object packetIn)
+	{
+		if(!hasBinding())
+		{
+			return -1;
+		}
+
+		return ia.getAction(packetIn);
+	}
+
+	@Override
+	public Vector getDirection(Object packetIn)
+	{
+		if(!hasBinding())
+		{
+			return new Vector();
+		}
+
+		return ia.getDirection(packetIn);
+	}
+
+	@Override
+	public void spawnArmorStand(int eid, UUID id, Location l, int data, Player player)
+	{
+		if(!hasBinding())
+		{
+			return;
+		}
+
+		ia.spawnArmorStand(eid, id, l, data, player);
+	}
+
+	@Override
+	public void removeEntity(int eid, Player p)
+	{
+		if(!hasBinding())
+		{
+			return;
+		}
+
+		ia.removeEntity(eid, p);
+	}
+
+	@Override
+	public void moveEntityRelative(int eid, Player p, double x, double y, double z, boolean onGround)
+	{
+		if(!hasBinding())
+		{
+			return;
+		}
+
+		ia.moveEntityRelative(eid, p, x, y, z, onGround);
+	}
+
+	@Override
+	public void teleportEntity(int eid, Player p, Location l, boolean onGround)
+	{
+		if(!hasBinding())
+		{
+			return;
+		}
+
+		ia.teleportEntity(eid, p, l, onGround);
+	}
+
+	@Override
+	public void updatePassengers(Player p, int vehicle, int... passengers)
+	{
+		if(!hasBinding())
+		{
+			return;
+		}
+
+		ia.updatePassengers(p, vehicle, passengers);
+	}
+
+	@Override
+	public void displayScoreboard(Player p, int slot, String id)
+	{
+		if(!hasBinding())
+		{
+			return;
+		}
+
+		ia.displayScoreboard(p, slot, id);
+	}
+
+	@Override
+	public void displayScoreboard(Player p, C slot, String id)
+	{
+		if(!hasBinding())
+		{
+			return;
+		}
+
+		ia.displayScoreboard(p, slot, id);
+	}
+
+	@Override
+	public void sendNewObjective(Player p, String id, String name)
+	{
+		if(!hasBinding())
+		{
+			return;
+		}
+
+		ia.sendNewObjective(p, id, name);
+	}
+
+	@Override
+	public void sendDeleteObjective(Player p, String id)
+	{
+		if(!hasBinding())
+		{
+			return;
+		}
+
+		ia.sendDeleteObjective(p, id);
+	}
+
+	@Override
+	public void sendEditObjective(Player p, String id, String name)
+	{
+		if(!hasBinding())
+		{
+			return;
+		}
+
+		ia.sendEditObjective(p, id, name);
+	}
+
+	@Override
+	public void sendScoreUpdate(Player p, String name, String objective, int score)
+	{
+		if(!hasBinding())
+		{
+			return;
+		}
+
+		ia.sendScoreUpdate(p, name, objective, score);
+	}
+
+	@Override
+	public void sendScoreRemove(Player p, String name, String objective)
+	{
+		if(!hasBinding())
+		{
+			return;
+		}
+
+		ia.sendScoreRemove(p, name, objective);
+	}
+
+	@Override
+	public void sendTeam(Player p, String id, String name, String prefix, String suffix, C color, int mode)
+	{
+		if(!hasBinding())
+		{
+			return;
+		}
+
+		ia.sendTeam(p, id, name, prefix, suffix, color, mode);
+	}
+
+	@Override
+	public void addTeam(Player p, String id, String name, String prefix, String suffix, C color)
+	{
+		if(!hasBinding())
+		{
+			return;
+		}
+
+		ia.addTeam(p, id, name, prefix, suffix, color);
+	}
+
+	@Override
+	public void updateTeam(Player p, String id, String name, String prefix, String suffix, C color)
+	{
+		if(!hasBinding())
+		{
+			return;
+		}
+
+		ia.updateTeam(p, id, name, prefix, suffix, color);
+	}
+
+	@Override
+	public void addToTeam(Player p, String id, String... entities)
+	{
+		if(!hasBinding())
+		{
+			return;
+		}
+
+		ia.addToTeam(p, id, entities);
+	}
+
+	@Override
+	public void removeTeam(Player p, String id)
+	{
+		if(!hasBinding())
+		{
+			return;
+		}
+
+		ia.removeTeam(p, id);
+	}
+
+	@Override
+	public void removeFromTeam(Player p, String id, String... entities)
+	{
+		if(!hasBinding())
+		{
+			return;
+		}
+
+		ia.removeFromTeam(p, id, entities);
+	}
+
+	@Override
+	public void sendGlowingColorMeta(Player p, Entity glowing, C color)
+	{
+		if(!hasBinding())
+		{
+			return;
+		}
+
+		ia.sendGlowingColorMeta(p, glowing, color);
+	}
+
+	@Override
+	public void sendEffect(Player p, Entity entity, PotionEffectType type, int duration, int amp, boolean ambient, boolean showParticles)
+	{
+		if(!hasBinding())
+		{
+			return;
+		}
+
+		ia.sendEffect(p, entity, type, duration, amp, ambient, showParticles);
+	}
+
+	@Override
+	public void removeEffect(Player p, Entity entity, PotionEffectType type)
+	{
+		if(!hasBinding())
+		{
+			return;
+		}
+
+		ia.removeEffect(p, entity, type);
+	}
+
+	@Override
+	public void sendRemoveGlowingColorMeta(Player p, Entity glowing)
+	{
+		if(!hasBinding())
+		{
+			return;
+		}
+
+		ia.sendRemoveGlowingColorMeta(p, glowing);
+	}
+
+	@Override
+	public void sendRemoveGlowingColorMetaEntity(Player p, UUID glowing)
+	{
+		if(!hasBinding())
+		{
+			return;
+		}
+
+		ia.sendRemoveGlowingColorMetaEntity(p, glowing);
+	}
+
+	@Override
+	public void sendRemoveGlowingColorMetaPlayer(Player p, UUID glowing, String name)
+	{
+		if(!hasBinding())
+		{
+			return;
+		}
+
+		ia.sendRemoveGlowingColorMetaPlayer(p, glowing, name);
+	}
+
+	@Override
+	public void sendGlowingColorMetaEntity(Player p, UUID euid, C color)
+	{
+		if(!hasBinding())
+		{
+			return;
+		}
+
+		ia.sendGlowingColorMetaEntity(p, euid, color);
+	}
+
+	@Override
+	public void sendGlowingColorMetaName(Player p, String euid, C color)
+	{
+		if(!hasBinding())
+		{
+			return;
+		}
+
+		ia.sendGlowingColorMetaName(p, euid, color);
+	}
+
+	@Override
+	public void sendBrand(Player p, String brand)
+	{
+		if(!hasBinding())
+		{
+			return;
+		}
+
+		ia.sendBrand(p, brand);
+	}
+
+	@Override
+	public void spawnFallingBlock(int eid, UUID id, Location l, Player player, MaterialBlock mb)
+	{
+		if(!hasBinding())
+		{
+			return;
+		}
+
+		ia.spawnFallingBlock(eid, id, l, player, mb);
 	}
 }

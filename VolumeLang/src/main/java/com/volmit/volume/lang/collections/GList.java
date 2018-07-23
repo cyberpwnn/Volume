@@ -248,7 +248,7 @@ public class GList<T> extends ArrayList<T>
 	 */
 	public boolean hasIndex(int i)
 	{
-		return i < size();
+		return i >= 0 && i < size();
 	}
 
 	/**

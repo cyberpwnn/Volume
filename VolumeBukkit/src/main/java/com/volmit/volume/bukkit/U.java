@@ -29,6 +29,11 @@ public class U
 		HandlerList.unregisterAll(l);
 	}
 
+	public static <T extends IService> void startService(Class<? extends T> t)
+	{
+		getService(t);
+	}
+
 	public static <T extends IService> T getService(Class<? extends T> t)
 	{
 		return VolumePlugin.vpi.getService(t);

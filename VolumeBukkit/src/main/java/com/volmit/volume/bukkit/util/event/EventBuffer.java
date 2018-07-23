@@ -17,7 +17,9 @@ import com.volmit.volume.lang.collections.GList;
 import com.volmit.volume.lang.collections.GMap;
 
 /**
- * Collects events into a buffer and uses consumers to execute them in bursts instead of when it happens.
+ * Collects events into a buffer and uses consumers to execute them in bursts
+ * instead of when it happens.
+ *
  * @author cyberpwn
  *
  * @param <T>
@@ -95,7 +97,15 @@ public class EventBuffer<T extends Event> implements Listener
 	{
 		for(Consumer<T> i : consumers)
 		{
-			i.accept(t);
+			try
+			{
+				i.accept(t);
+			}
+
+			catch(Throwable e)
+			{
+
+			}
 		}
 	}
 
