@@ -1,6 +1,6 @@
 package com.volmit.volume.bukkit.task;
 
-public abstract class AR implements Runnable
+public class AR implements Runnable
 {
 	public static TaskManager m;
 	private int id = 0;
@@ -20,6 +20,21 @@ public abstract class AR implements Runnable
 		id = m.asyncRepeating(delay, interval, this);
 	}
 
+	public AR(Runnable runnable)
+	{
+		this(0, runnable);
+	}
+
+	public AR(int interval, Runnable runnable)
+	{
+		this(interval, 0, runnable);
+	}
+
+	public AR(int interval, int delay, Runnable runnable)
+	{
+		id = m.asyncRepeating(delay, interval, runnable);
+	}
+
 	public void cancel()
 	{
 		m.cancel(id);
@@ -30,4 +45,9 @@ public abstract class AR implements Runnable
 		return id;
 	}
 
+	@Override
+	public void run()
+	{
+
+	}
 }
