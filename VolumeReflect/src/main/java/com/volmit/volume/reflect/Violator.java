@@ -110,7 +110,7 @@ public class Violator
 		{
 			Field f = c.getField(name);
 			f.setAccessible(true);
-			p(id(f, null), f);
+			p(id(c, null) + "." + name, f);
 		}
 
 		return (Field) g(id(c, null) + "." + name);
