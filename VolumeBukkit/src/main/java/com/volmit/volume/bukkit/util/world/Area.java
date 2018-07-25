@@ -140,7 +140,7 @@ public class Area
 			}
 		}
 
-		return e.toArray(new Entity[e.size()]);
+		return e.toArray(new Entity[0]);
 	}
 
 	/**
@@ -162,7 +162,7 @@ public class Area
 			}
 		}
 
-		return e.toArray(new Entity[e.size()]);
+		return e.toArray(new Entity[0]);
 	}
 
 	/**
@@ -194,7 +194,7 @@ public class Area
 				}
 			}
 
-			return radiusEntities.toArray(new Entity[radiusEntities.size()]);
+			return radiusEntities.toArray(new Entity[0]);
 		}
 
 		catch(Exception e)
@@ -220,7 +220,7 @@ public class Area
 			}
 		}
 
-		return px.toArray(new Player[px.size()]);
+		return px.toArray(new Player[0]);
 	}
 
 	/**
