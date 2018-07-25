@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
+import com.volmit.volume.lang.json.JSONArray;
+
 /**
  * GLists are Arraylists with special enhancements
  *
@@ -76,6 +78,25 @@ public class GList<T> extends ArrayList<T>
 		{
 			add(i);
 		}
+	}
+
+	/**
+	 * Get a GList<String> from a JSONArray
+	 *
+	 * @param ja
+	 *            the JSONArray
+	 * @return a GList<String> representing this json array
+	 */
+	public static GList<String> from(JSONArray ja)
+	{
+		GList<String> g = new GList<String>();
+
+		for(int i = 0; i < ja.length(); i++)
+		{
+			g.add(ja.getString(i));
+		}
+
+		return g;
 	}
 
 	/**

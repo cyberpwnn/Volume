@@ -1,47 +1,21 @@
 package com.volmit.volume.lang.collections;
 
-
 /**
  * Callback for async workers
- * 
+ *
  * @author cyberpwn
  *
  * @param <T>
  *            the type of object to be returned in the runnable
  */
-public class Callback<T> implements Runnable
+@FunctionalInterface
+public interface Callback<T>
 {
-	private T t;
-	
 	/**
-	 * Execute the callback via async.
-	 * 
+	 * Called when the callback calls back...
+	 *
 	 * @param t
-	 *            the object to be called back from the worker thead
+	 *            the object to be called back
 	 */
-	public void run(T t)
-	{
-		this.t = t;
-		run();
-	}
-	
-	/**
-	 * Implement your callback code through here. Invoke get(); to get the
-	 * called back object
-	 */
-	@Override
-	public void run()
-	{
-		
-	}
-	
-	/**
-	 * Get the object from the worker thread
-	 * 
-	 * @return the Object of the defined type T
-	 */
-	public T get()
-	{
-		return t;
-	}
+	public void run(T t);
 }
