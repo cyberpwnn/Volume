@@ -20,6 +20,22 @@
 			<url>http://nexus.volmit.com/content/repositories/volmit</url>
 		</repository>
 	</distributionManagement>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 	<dependencies>
 		<dependency>
 			<groupId>com.volmit</groupId>
@@ -31,15 +47,15 @@
 			<artifactId>VolumeLang</artifactId>
 			<version>1.1</version>
 		</dependency>
-<!-- 		<dependency> -->
-<!-- 			<groupId>net.openhft</groupId> -->
-<!-- 			<artifactId>compiler</artifactId> -->
-<!-- 			<version>2.3.0</version> -->
-<!-- 		</dependency> -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>oracle</groupId> -->
-<!-- 			<artifactId>tools</artifactId> -->
-<!-- 			<version>1.8.144</version> -->
-<!-- 		</dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>net.openhft</groupId> -->
+		<!-- <artifactId>compiler</artifactId> -->
+		<!-- <version>2.3.0</version> -->
+		<!-- </dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>oracle</groupId> -->
+		<!-- <artifactId>tools</artifactId> -->
+		<!-- <version>1.8.144</version> -->
+		<!-- </dependency> -->
 	</dependencies>
 </project>

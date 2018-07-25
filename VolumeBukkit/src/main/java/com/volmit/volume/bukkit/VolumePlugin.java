@@ -18,11 +18,19 @@ public abstract class VolumePlugin extends JavaPlugin implements IPawn
 	private PawnManager pawnManager;
 	private ServiceManager serviceManager;
 	public static VolumePlugin vpi;
+	private File f;
+
+	@Override
+	public File getFile()
+	{
+		return f;
+	}
 
 	@Override
 	public void onEnable()
 	{
 		vpi = this;
+		f = getFile();
 		taskManager = new TaskManager(this);
 
 		try
