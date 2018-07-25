@@ -12,6 +12,6 @@ A shared library across projects. Strives to accelerate plugin creation.
 <dependency>
     <groupId>com.volmit</groupId>
     <artifactId>Volume</artifactId>
-    <version>1.0</version>
+    <version>1.1</version>
 </dependency>
 ```
