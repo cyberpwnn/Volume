@@ -333,4 +333,9 @@ public class M
 	{
 		return a >= 0 ? sin[a % (modulus)] : -sin[-a % (modulus)];
 	}
+
+	public static double absoluteZero(double d)
+	{
+		return d < 0 ? 0 : d;
+	}
 }
