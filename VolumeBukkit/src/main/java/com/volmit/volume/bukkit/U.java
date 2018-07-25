@@ -17,28 +17,68 @@ import com.volmit.volume.bukkit.util.data.YAMLClusterPort;
 import com.volmit.volume.cluster.DataCluster;
 import com.volmit.volume.lang.collections.GList;
 
+/**
+ * Volume Utility class.
+ *
+ * @author cyberpwn
+ *
+ */
 public class U
 {
+	/**
+	 * Register an event listener through bukkit
+	 *
+	 * @param l
+	 *            the event listener to register
+	 */
 	public static void register(Listener l)
 	{
 		Bukkit.getPluginManager().registerEvents(l, VolumePlugin.vpi);
 	}
 
+	/**
+	 * Unregister an event listener through bukkit
+	 *
+	 * @param l
+	 *            the event listener to unregister
+	 */
 	public static void unregister(Listener l)
 	{
 		HandlerList.unregisterAll(l);
 	}
 
+	/**
+	 * Start a service. A service is simply anything implementing IService. It is
+	 * treated as a pawn. (start is invoked) and it is attached to the svc manager.
+	 *
+	 * @param t
+	 *            the running service, typed
+	 */
 	public static <T extends IService> void startService(Class<? extends T> t)
 	{
 		getService(t);
 	}
 
+	/**
+	 * Get a service. A service is simply anything implementing IService. It is
+	 * treated as a pawn. If the service is not running, it is started before
+	 * returning (start is invoked) and it is attached to the svc manager.
+	 *
+	 * @param t
+	 *            the running service, typed
+	 */
 	public static <T extends IService> T getService(Class<? extends T> t)
 	{
 		return VolumePlugin.vpi.getService(t);
 	}
 
+	/**
+	 * Get a list of child pawns attached to the given pawn
+	 *
+	 * @param pawn
+	 *            the parent pawn
+	 * @return the children pawns
+	 */
 	public static GList<IPawn> getChildren(IPawn pawn)
 	{
 		GList<IPawn> pa = new GList<IPawn>();
