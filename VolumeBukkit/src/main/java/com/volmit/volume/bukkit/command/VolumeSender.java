@@ -12,32 +12,75 @@ import org.bukkit.plugin.Plugin;
 
 import com.volmit.volume.bukkit.util.text.C;
 
+/**
+ * Represents a volume sender. A command sender with extra crap in it
+ *
+ * @author cyberpwn
+ *
+ */
 public class VolumeSender implements CommandSender
 {
 	private CommandSender s;
 	private String tag;
 
+	/**
+	 * Wrap a command sender
+	 *
+	 * @param s
+	 *            the command sender
+	 */
 	public VolumeSender(CommandSender s)
 	{
 		tag = "";
 		this.s = s;
 	}
 
+	/**
+	 * Set a command tag (prefix for sendMessage)
+	 *
+	 * @param tag
+	 *            the tag
+	 */
 	public void setTag(String tag)
 	{
 		this.tag = tag;
 	}
 
+	/**
+	 * Get the command tag
+	 *
+	 * @return the command tag
+	 */
 	public String getTag()
 	{
 		return tag;
 	}
 
+	/**
+	 * Is this sender a player?
+	 *
+	 * @return true if it is
+	 */
+	public boolean isPlayer()
+	{
+		return getS() instanceof Player;
+	}
+
+	/**
+	 * Force cast to player (be sure to check first)
+	 *
+	 * @return a casted player
+	 */
 	public Player player()
 	{
 		return (Player) getS();
 	}
 
+	/**
+	 * Get the origin sender this object is wrapping
+	 *
+	 * @return the command sender
+	 */
 	public CommandSender getS()
 	{
 		return s;

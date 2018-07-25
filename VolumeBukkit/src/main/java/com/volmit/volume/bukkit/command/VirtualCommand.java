@@ -8,6 +8,13 @@ import com.volmit.volume.lang.collections.GList;
 import com.volmit.volume.lang.collections.GMap;
 import com.volmit.volume.reflect.V;
 
+/**
+ * Represents a virtual command. A chain of iterative processing through
+ * subcommands.
+ *
+ * @author cyberpwn
+ *
+ */
 public class VirtualCommand
 {
 	private ICommand command;
