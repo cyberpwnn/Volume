@@ -1,9 +1,8 @@
 package com.volmit.volume.bukkit.nms.adapter;
 
-import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.*;
 
 import java.util.Arrays;
-import lombok.Getter;
 
 /**
  * An array of nibbles (4-bit values) stored efficiently as a byte array of half
@@ -23,7 +22,6 @@ public final class NibbleArray
 	 *
 	 * @return The raw bytes.
 	 */
-	@Getter
 	private final byte[] rawData;
 
 	/**
@@ -169,5 +167,10 @@ public final class NibbleArray
 	public NibbleArray snapshot()
 	{
 		return new NibbleArray(rawData.clone());
+	}
+
+	public byte[] getRawData()
+	{
+		return rawData;
 	}
 }

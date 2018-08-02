@@ -40,12 +40,12 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.meethue</groupId>
-			<artifactId>HueLocalSDK</artifactId>
-			<version>1.1</version>
+			<artifactId>HueSDKResources</artifactId>
+			<version>1.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.meethue</groupId>
-			<artifactId>HueSDKResources</artifactId>
+			<artifactId>HueLocalSDK</artifactId>
 			<version>1.0</version>
 		</dependency>
 		<dependency>

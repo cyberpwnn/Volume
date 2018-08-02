@@ -162,6 +162,18 @@ public class GList<T> extends ArrayList<T>
 		add(array);
 	}
 
+	public JSONArray toJSONStringArray()
+	{
+		JSONArray j = new JSONArray();
+
+		for(Object i : this)
+		{
+			j.put(i.toString());
+		}
+
+		return j;
+	}
+
 	/**
 	 * Get the most common element in the list, may return any if no duplicates
 	 *

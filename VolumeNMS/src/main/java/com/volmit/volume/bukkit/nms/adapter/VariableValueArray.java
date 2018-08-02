@@ -1,15 +1,9 @@
 package com.volmit.volume.bukkit.nms.adapter;
 
-import lombok.Getter;
-
 public final class VariableValueArray implements Cloneable
 {
-
-	@Getter
 	private final long[] backing;
-	@Getter
 	private final int capacity;
-	@Getter
 	private final int bitsPerValue;
 	private final long valueMask;
 
@@ -120,16 +114,16 @@ public final class VariableValueArray implements Cloneable
 
 		index *= bitsPerValue;
 		int i0 = index >> 6;
-		int i1 = index & 0x3f;
+			int i1 = index & 0x3f;
 
-		backing[i0] = this.backing[i0] & ~(this.valueMask << i1) | (value & valueMask) << i1;
-		int i2 = i1 + bitsPerValue;
-		// The value is divided over two long values
-		if(i2 > 64)
-		{
-			i0++;
-			backing[i0] = backing[i0] & ~((1L << i2 - 64) - 1L) | value >> 64 - i1;
-		}
+			backing[i0] = this.backing[i0] & ~(this.valueMask << i1) | (value & valueMask) << i1;
+			int i2 = i1 + bitsPerValue;
+			// The value is divided over two long values
+			if(i2 > 64)
+			{
+				i0++;
+				backing[i0] = backing[i0] & ~((1L << i2 - 64) - 1L) | value >> 64 - i1;
+			}
 	}
 
 	private void checkIndex(int index)
@@ -182,5 +176,25 @@ public final class VariableValueArray implements Cloneable
 		VariableValueArray clone = new VariableValueArray(this.bitsPerValue, this.capacity);
 		System.arraycopy(this.backing, 0, clone.backing, 0, this.backing.length);
 		return clone;
+	}
+
+	public long[] getBacking()
+	{
+		return backing;
+	}
+
+	public int getCapacity()
+	{
+		return capacity;
+	}
+
+	public int getBitsPerValue()
+	{
+		return bitsPerValue;
+	}
+
+	public long getValueMask()
+	{
+		return valueMask;
 	}
 }
