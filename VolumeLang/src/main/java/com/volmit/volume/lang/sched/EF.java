@@ -1,4 +1,4 @@
-package com.volmit.volmume.lang.sched;
+package com.volmit.volume.lang.sched;
 
 @FunctionalInterface
 public interface EF<T>
