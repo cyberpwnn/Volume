@@ -218,6 +218,11 @@ public class F
 		{
 			return F.f(ms / 1000.0 / 60.0, prec) + " hours";
 		}
+		
+		if(ms / 1000.0 / 60.0 / 60.0 / 24.0 < 7)
+		{
+			return F.f(ms / 1000.0 / 60.0/ 24.0, prec) + " days";
+		}
 
 		return F.f(ms, prec) + "ms";
 	}
