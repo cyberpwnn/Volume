@@ -1,9 +1,11 @@
 package com.volmit.volume.lang.io;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 
@@ -36,7 +38,7 @@ public abstract class DL
 		size = -1;
 		lastPull = -1;
 		downloaded = 0;
-		bufferSize = 8192;
+		bufferSize = 256;
 		currentChunk = 0;
 		lastChunk = -1;
 		bps = -1;
@@ -139,15 +141,14 @@ public abstract class DL
 		double chunkTime = (double)(System.currentTimeMillis() - lastChunk) / 1000D;
 		bps = (long) ((double)currentChunk / chunkTime);
 		
-	
-		if(d == bufferSize && dur < 50 && bufferSize < 8192 * 32 && getBufferUse() > 0.5)
+		if(dur < 250 && bufferSize < 8192 * 64)
 		{
-			bufferSize *= 1.241;
+			bufferSize *= 1.04;
 		}
 		
 		else if(bufferSize > 1024)
 		{
-			bufferSize /= 1.012;
+			bufferSize /= 1.035;
 		}
 		
 		if(latch.flip())
@@ -269,22 +270,42 @@ public abstract class DL
 		}
 	}
 	
+	public static class DoubleBufferedDownload extends Download
+	{
+		protected BufferedOutputStream os;
+		
+		public DoubleBufferedDownload(URL u, File d, DownloadFlag... downloadFlags)
+		{
+			super(u, d, downloadFlags);
+		}
+		
+		@Override
+		protected void openStream() throws IOException 
+		{
+			os = new BufferedOutputStream(o, 8192*16);
+			in = new BufferedInputStream(u.openStream(), 8192*16);
+			buf = new byte[8192 * 2];
+		}
+	}
+	
 	public static class Download extends DL
 	{
-		protected BufferedInputStream in;
-		
+		protected InputStream in;
+		protected byte[] buf;
 		public Download(URL u, File d, DownloadFlag... downloadFlags) {
 			super(u, d, downloadFlags);
 		}
 
 		@Override
-		protected long download() throws IOException {
-			return VIO.transfer(in, o, 8192, bufferSize);
+		protected long download() throws IOException 
+		{
+			return VIO.transfer(in, o, buf, bufferSize);
 		}
 
 		@Override
 		protected void openStream() throws IOException {
-			in = new BufferedInputStream(u.openStream(), 8192);
+			in = u.openStream();
+			buf = new byte[8192];
 		}
 
 		@Override

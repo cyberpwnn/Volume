@@ -11,7 +11,7 @@ public class Test {
 	public static void main(String[] a)
 	{
 		try {
-			DL.Download d = new DL.Download(new URL("http://mirror.filearena.net/pub/speed/SpeedTest_2048MB.dat"), new File("file.dat"), DownloadFlag.CALCULATE_SIZE);
+			DL.Download d = new DL.DoubleBufferedDownload(new URL("https://dl.google.com/dl/android/studio/install/3.1.4.0/android-studio-ide-173.4907809-mac.dmg"), new File("file.dat"), DownloadFlag.CALCULATE_SIZE);
 			d.monitor((s, pct, elap, est, bps, iobps, sz, dld, bs, bu) -> System.out.println(s.toString() + " " + F.pc(pct) + " Elapsed: " + F.timeLong(elap, 1) + " Estim: " + F.timeLong(est, 1) + " BPS: " + F.fileSize(bps) + " (IO: " + F.fileSize(iobps) + ") " + F.fileSize(dld) + " of " + F.fileSize(sz) + " Buffer: " + F.f(bs)));
 			d.start();
 			

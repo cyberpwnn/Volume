@@ -137,4 +137,24 @@ public class VIO
 
 		f.delete();
 	}
+
+	public static long transfer(InputStream in, OutputStream out, byte[] buf, int totalSize) throws IOException {
+		long total = totalSize;
+		long wrote = 0;
+		int r = 0;
+
+		while((r = in.read(buf, 0, (int) (total < buf.length ? total : buf.length))) != -1)
+		{
+			total -= r;
+			out.write(buf, 0, r);
+			wrote += r;
+
+			if(total <= 0)
+			{
+				break;
+			}
+		}
+
+		return wrote;
+	}
 }
