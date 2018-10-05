@@ -25,7 +25,15 @@ public class ObjectClusterPort<T> implements IClusterPort<T>
 		{
 			if(i.isAnnotationPresent(CFG.class))
 			{
-				cc.set(i.getAnnotation(CFG.class).value(), i.get(this));
+				try
+				{
+					cc.set(i.getAnnotation(CFG.class).value(), i.get(t));
+				}
+
+				catch(Exception e)
+				{
+					e.printStackTrace();
+				}
 			}
 		}
 

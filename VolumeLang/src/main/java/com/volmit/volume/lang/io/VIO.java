@@ -137,4 +137,50 @@ public class VIO
 
 		f.delete();
 	}
+
+	public static long size(File file)
+	{
+		long s = 0;
+
+		if(file.exists())
+		{
+			if(file.isDirectory())
+			{
+				for(File i : file.listFiles())
+				{
+					s += size(i);
+				}
+			}
+
+			else
+			{
+				s += file.length();
+			}
+		}
+
+		return s;
+	}
+
+	public static long count(File file)
+	{
+		long s = 0;
+
+		if(file.exists())
+		{
+			if(file.isDirectory())
+			{
+				for(File i : file.listFiles())
+				{
+					s += count(i);
+				}
+			}
+
+			else
+			{
+				s++;
+			}
+		}
+
+		return s;
+	}
 }
