@@ -1,9 +1,20 @@
 package com.volmit.volume.lang.io;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.util.Enumeration;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipException;
+import java.util.zip.ZipFile;
+
+import com.volmit.volume.lang.collections.GList;
 
 public class VIO
 {
@@ -138,7 +149,6 @@ public class VIO
 		f.delete();
 	}
 
-<<<<<<< HEAD
 	public static long size(File file)
 	{
 		long s = 0;
@@ -183,8 +193,10 @@ public class VIO
 		}
 
 		return s;
+	}
 
-	public static long transfer(InputStream in, OutputStream out, byte[] buf, int totalSize) throws IOException {
+	public static long transfer(InputStream in, OutputStream out, byte[] buf, int totalSize) throws IOException
+	{
 		long total = totalSize;
 		long wrote = 0;
 		int r = 0;
@@ -202,5 +214,114 @@ public class VIO
 		}
 
 		return wrote;
+	}
+
+	public static void readEntry(File zipfile, String entryname, InputHandler v) throws ZipException, IOException
+	{
+		ZipFile file = new ZipFile(zipfile);
+		Throwable x = null;
+
+		try
+		{
+			Enumeration<? extends ZipEntry> entries = file.entries();
+			while(entries.hasMoreElements())
+			{
+				ZipEntry entry = entries.nextElement();
+
+				if(entryname.equals(entry.getName()))
+				{
+					InputStream in = file.getInputStream(entry);
+					v.read(in);
+				}
+			}
+		}
+
+		catch(Exception ex)
+		{
+			x = ex.getCause();
+		}
+
+		finally
+		{
+			file.close();
+		}
+
+		if(x != null)
+		{
+			throw new IOException("Failed to read zip entry, however it has been closed safely.", x);
+		}
+	}
+
+	public static GList<String> listEntries(File zipfile) throws ZipException, IOException
+	{
+		ZipFile file = new ZipFile(zipfile);
+		GList<String> e = new GList<String>();
+		Throwable x = null;
+
+		try
+		{
+			Enumeration<? extends ZipEntry> entries = file.entries();
+			while(entries.hasMoreElements())
+			{
+				ZipEntry entry = entries.nextElement();
+				e.add(entry.getName());
+			}
+		}
+
+		catch(Exception ex)
+		{
+			x = ex.getCause();
+		}
+
+		finally
+		{
+			file.close();
+		}
+
+		if(x != null)
+		{
+			throw new IOException("Failed to read zip listing, however it has been closed safely.", x);
+		}
+
+		return e;
+	}
+
+	public static void writeAll(File f, Object c) throws IOException
+	{
+		PrintWriter pw = new PrintWriter(new FileWriter(f));
+		pw.println(c.toString());
+		pw.close();
+	}
+
+	public static String readAll(File f) throws IOException
+	{
+		BufferedReader bu = new BufferedReader(new FileReader(f));
+		String c = "";
+		String l = "";
+
+		while((l = bu.readLine()) != null)
+		{
+			c += l + "\n";
+		}
+
+		bu.close();
+
+		return c;
+	}
+
+	public static String readAll(InputStream in) throws IOException
+	{
+		BufferedReader bu = new BufferedReader(new InputStreamReader(in));
+		String c = "";
+		String l = "";
+
+		while((l = bu.readLine()) != null)
+		{
+			c += l + "\n";
+		}
+
+		bu.close();
+
+		return c;
 	}
 }

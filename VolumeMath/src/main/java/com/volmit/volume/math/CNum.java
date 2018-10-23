@@ -5,6 +5,11 @@ public class CNum
 	private int number;
 	private int max;
 
+	public int getMax()
+	{
+		return max;
+	}
+
 	public CNum(int max)
 	{
 		number = 0;

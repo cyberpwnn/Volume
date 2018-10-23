@@ -22,6 +22,7 @@ public class Download
 
 	public void download() throws IOException
 	{
+		destination.getParentFile().mkdirs();
 		ReadableByteChannel rbc = Channels.newChannel(url.openStream());
 		destination.getParentFile().mkdirs();
 		FileOutputStream fos = new FileOutputStream(destination);

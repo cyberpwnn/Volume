@@ -16,6 +16,22 @@ public enum Protocol
 	LATEST(10000, "Latest"),
 
 	/**
+	 * Release 1.13.1<br/>
+	 * Protocol: 401<br/>
+	 * Netty: true<br/>
+	 * NMS: v1_13_R1
+	 */
+	R1_13_1(401, "1.13.1", "v1_13_R1"),
+
+	/**
+	 * Release 1.13<br/>
+	 * Protocol: 393<br/>
+	 * Netty: true<br/>
+	 * NMS: v1_13_R1
+	 */
+	R1_13(393, "1.13", "v1_13_R1"),
+
+	/**
 	 * Release 1.12.2<br/>
 	 * Protocol: 340<br/>
 	 * Netty: true<br/>

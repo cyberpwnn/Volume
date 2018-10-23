@@ -30,6 +30,16 @@ public class GList<T> extends ArrayList<T>
 		super();
 	}
 
+	public void addFirst(T t)
+	{
+		add(0, t);
+	}
+
+	public void addLast(T t)
+	{
+		add(t);
+	}
+
 	public GList<T> grepExplicit(int startIndex, int endIndex)
 	{
 		GList<T> f = new GList<T>();
