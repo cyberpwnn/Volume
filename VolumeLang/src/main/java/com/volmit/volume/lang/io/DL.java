@@ -38,7 +38,7 @@ public abstract class DL
 		size = -1;
 		lastPull = -1;
 		downloaded = 0;
-		bufferSize = 256;
+		bufferSize = 8192 * 32;
 		currentChunk = 0;
 		lastChunk = -1;
 		bps = -1;
@@ -140,16 +140,6 @@ public abstract class DL
 		
 		double chunkTime = (double)(System.currentTimeMillis() - lastChunk) / 1000D;
 		bps = (long) ((double)currentChunk / chunkTime);
-		
-		if(dur < 250 && bufferSize < 8192 * 64)
-		{
-			bufferSize *= 1.04;
-		}
-		
-		else if(bufferSize > 1024)
-		{
-			bufferSize /= 1.035;
-		}
 		
 		if(latch.flip())
 		{
