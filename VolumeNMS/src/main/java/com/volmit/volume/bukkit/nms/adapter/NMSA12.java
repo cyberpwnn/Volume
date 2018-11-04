@@ -566,7 +566,7 @@ public class NMSA12 extends NMSAdapter
 
 			if(c.isContinuous())
 			{
-				sendChunkUnload(c.getX(), c.getZ(), p);
+				// sendChunkUnload(c.getX(), c.getZ(), p);
 			}
 
 			sendPacket(m, p);

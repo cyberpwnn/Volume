@@ -26,10 +26,16 @@ public abstract class CDNSyncronizer
 
 	public CDNSyncronizer(File directory, CDNRepository repo)
 	{
+		e = Executors.newWorkStealingPool(16);
 		this.directory = directory;
 		this.repo = repo;
 		lastLog = "Hang On";
 		lastProgress = 0;
+	}
+
+	public ExecutorService getService()
+	{
+		return e;
 	}
 
 	public abstract void onProgressUpdate(double progress, String log);
@@ -111,8 +117,6 @@ public abstract class CDNSyncronizer
 
 	public void validate(Runnable callback) throws JSONException, IOException
 	{
-		e = Executors.newWorkStealingPool(16);
-
 		e.submit(new Runnable()
 		{
 			@Override

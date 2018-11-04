@@ -17,6 +17,11 @@ public class TaskManager
 		SR.m = this;
 	}
 
+	public void shutDown()
+	{
+
+	}
+
 	public void cancel(int i)
 	{
 		Bukkit.getScheduler().cancelTask(i);

@@ -68,6 +68,8 @@ public abstract class VolumePlugin extends JavaPlugin implements IPawn
 		{
 			e.printStackTrace();
 		}
+
+		getTaskManager().shutDown();
 	}
 
 	/**
@@ -83,6 +85,11 @@ public abstract class VolumePlugin extends JavaPlugin implements IPawn
 		File ff = new File(getDataFolder(), new GList<String>(path).toString("/"));
 		ff.getParentFile().mkdirs();
 		return ff;
+	}
+
+	protected void setTaskManager(TaskManager wTaskManager)
+	{
+		this.taskManager = wTaskManager;
 	}
 
 	/**

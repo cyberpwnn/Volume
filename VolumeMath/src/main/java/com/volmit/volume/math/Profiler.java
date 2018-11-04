@@ -103,6 +103,10 @@ public class Profiler
 
 	public double getMilliseconds()
 	{
+		nanos = System.nanoTime() - startNano;
+		millis = System.currentTimeMillis() - startMillis;
+		time = (double) nanos / 1000000.0;
+		time = (double) millis - time > 1.01 ? millis : time;
 		return time;
 	}
 

@@ -5,6 +5,8 @@ import java.io.IOException;
 
 import javax.annotation.Nullable;
 
+import org.bukkit.Material;
+
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntList;
 import it.unimi.dsi.fastutil.ints.IntListIterator;
@@ -13,7 +15,7 @@ import lombok.Getter;
 /**
  * A single cubic section of a chunk, with all data.
  */
-public final class ChunkSection
+public final class ChunkSection implements Cloneable
 {
 
 	/**
@@ -24,7 +26,7 @@ public final class ChunkSection
 	/**
 	 * Block light level to use for empty chunk sections.
 	 */
-	public static final byte EMPTY_BLOCK_LIGHT = 15;
+	public static final byte EMPTY_BLOCK_LIGHT = 0;
 	/**
 	 * Sky light level to use for empty chunk sections.
 	 */
@@ -41,14 +43,14 @@ public final class ChunkSection
 	 * The number of bits per block used in the global palette.
 	 */
 	public static final int GLOBAL_PALETTE_BITS_PER_BLOCK = 13;
-	
+
 	/**
 	 * The palette.
 	 */
 	@Nullable
 	private IntList palette;
 	private VariableValueArray data;
-	
+
 	/**
 	 * The sky light array. This array is always set, even in dimensions without
 	 * skylight.
@@ -152,7 +154,7 @@ public final class ChunkSection
 		{
 			throw new IllegalArgumentException("An array length was not " + ARRAY_SIZE + ": " + data.getCapacity() + " " + skyLight.size() + " " + blockLight.size());
 		}
-		
+
 		if(palette == null)
 		{
 			if(data.getBitsPerValue() != GLOBAL_PALETTE_BITS_PER_BLOCK)
@@ -160,7 +162,7 @@ public final class ChunkSection
 				throw new IllegalArgumentException("Must use " + GLOBAL_PALETTE_BITS_PER_BLOCK + " bits per block when palette is null (using global palette); got " + data.getBitsPerValue());
 			}
 		}
-		
+
 		else
 		{
 			if(data.getBitsPerValue() < 4 || data.getBitsPerValue() > 8)
@@ -565,15 +567,15 @@ public final class ChunkSection
 		{
 			part = value & 0x7F;
 			value >>>= 7;
-			if(value != 0)
-			{
-				part |= 0x80;
-			}
-			buf.write(part);
-			if(value == 0)
-			{
-				break;
-			}
+						if(value != 0)
+						{
+							part |= 0x80;
+						}
+						buf.write(part);
+						if(value == 0)
+						{
+							break;
+						}
 		}
 	}
 
@@ -600,22 +602,23 @@ public final class ChunkSection
 	 *            True if skylight should be included.
 	 * @throws IllegalStateException
 	 *             If this chunk section {@linkplain #isEmpty() is empty}
-	 * @throws IOException 
+	 * @throws IOException
 	 */
+	@SuppressWarnings("deprecation")
 	public void writeToBuf(ByteArrayOutputStream boas, boolean skylight) throws IllegalStateException, IOException
 	{
 		if(this.isEmpty())
 		{
-			throw new IllegalStateException("Can't write empty sections");
+			this.setType(0, 0, 0, Material.STONE_BUTTON.getId(), (byte) 0);
 		}
-	
+
 		boas.write(data.getBitsPerValue());
 
 		if(palette == null)
 		{
 			writeVarInt(boas, 0); // Palette size -> 0 -> Use the global palette
 		}
-	
+
 		else
 		{
 			writeVarInt(boas, palette.size()); // Palette size
@@ -626,20 +629,26 @@ public final class ChunkSection
 				writeVarInt(boas, itr.nextInt()); // The palette entry
 			}
 		}
-	
+
 		long[] backing = data.getBacking();
 		writeVarInt(boas, backing.length);
-	
+
 		for(long value : backing)
 		{
 			writeLong(boas, value);
 		}
-	
+
 		boas.write(blockLight.getRawData());
-	
+
 		if(skylight)
 		{
 			boas.write(skyLight.getRawData());
 		}
+	}
+
+	@Override
+	protected ChunkSection clone()
+	{
+		return new ChunkSection(data, palette, skyLight, blockLight);
 	}
 }
