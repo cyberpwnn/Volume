@@ -52,6 +52,31 @@ public class W
 	}
 
 	/**
+	 * Get the average location
+	 *
+	 * @param ll
+	 *            the locations
+	 * @return the average location
+	 */
+	public static Location getAverageLocation(GList<Location> ll)
+	{
+		double x = 0;
+		double y = 0;
+		double z = 0;
+		World w = null;
+
+		for(Location i : ll)
+		{
+			w = i.getWorld();
+			x += i.getX();
+			y += i.getY();
+			z += i.getZ();
+		}
+
+		return new Location(w, x / (double) ll.size(), y / (double) ll.size(), z / (double) ll.size());
+	}
+
+	/**
 	 * Set the color of a peice of armor
 	 *
 	 * @param s

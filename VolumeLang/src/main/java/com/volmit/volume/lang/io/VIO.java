@@ -15,6 +15,8 @@ import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 
 import com.volmit.volume.lang.collections.GList;
+import com.volmit.volume.lang.collections.SimpleCallback;
+import com.volmit.volume.lang.queue.ChronoLatch;
 
 public class VIO
 {
@@ -78,6 +80,55 @@ public class VIO
 				break;
 			}
 		}
+
+		return wrote;
+	}
+
+	/**
+	 * Transfers the length of the buffer amount of data from the input stream to
+	 * the output stream
+	 *
+	 * @param in
+	 *            the input
+	 * @param out
+	 *            the output
+	 * @param targetBuffer
+	 *            the buffer and size to use
+	 * @param totalSize
+	 *            the total amount to transfer
+	 * @param progress
+	 *            the progress callback
+	 * @return the actual transfered amount
+	 * @throws IOException
+	 *             shit happens
+	 */
+	public static long transfer(InputStream in, OutputStream out, int targetBuffer, long totalSize, SimpleCallback<Double> progress) throws IOException
+	{
+		long total = totalSize;
+		long wrote = 0;
+		byte[] buf = new byte[targetBuffer];
+		int r = 0;
+		ChronoLatch cl = new ChronoLatch(200, false);
+		progress.run((double) wrote / (double) totalSize);
+
+		while((r = in.read(buf, 0, (int) (total < targetBuffer ? total : targetBuffer))) != -1)
+		{
+			total -= r;
+			out.write(buf, 0, r);
+			wrote += r;
+
+			if(cl.flip())
+			{
+				progress.run((double) wrote / (double) totalSize);
+			}
+
+			if(total <= 0)
+			{
+				break;
+			}
+		}
+
+		progress.run((double) wrote / (double) totalSize);
 
 		return wrote;
 	}

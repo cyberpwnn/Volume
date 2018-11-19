@@ -218,7 +218,7 @@ public class F
 		{
 			return F.f(ms / 1000.0 / 60.0, prec) + " hours";
 		}
-		
+
 		if(ms / 1000.0 / 60.0 / 60.0 / 24.0 < 7)
 		{
 			return F.f(ms / 1000.0 / 60.0/ 24.0, prec) + " days";
@@ -315,6 +315,13 @@ public class F
 	{
 		Date d = new Date(t);
 		return d.getMonth() + "-" + d.getDate() + "-" + (d.getYear() + 1900) + " " + d.getHours() + "h " + d.getMinutes() + "m " + d.getSeconds() + "s ";
+	}
+
+	@SuppressWarnings("deprecation")
+	public static String stampDay(long t)
+	{
+		Date d = new Date(t);
+		return d.getMonth() + "-" + d.getDate() + "-" + (d.getYear() + 1900);
 	}
 
 	/**
