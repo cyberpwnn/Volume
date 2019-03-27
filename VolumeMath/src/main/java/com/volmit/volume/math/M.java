@@ -20,6 +20,11 @@ public class M
 		return Math.min(max, Math.max(min, value));
 	}
 
+	public static int iclip(double value, double min, double max)
+	{
+		return (int) Math.min(max, Math.max(min, value));
+	}
+
 	/**
 	 * Get true or false based on random percent
 	 *

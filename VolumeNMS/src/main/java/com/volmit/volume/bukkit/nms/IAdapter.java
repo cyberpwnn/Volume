@@ -138,4 +138,9 @@ public interface IAdapter extends IPawn
 	public int getAction(Object packetIn);
 
 	public Vector getDirection(Object packet);
+
+	public static boolean isWithin(Chunk center, Chunk check, int viewDistance)
+	{
+		return Math.abs(center.getX() - check.getX()) <= viewDistance && Math.abs(center.getZ() - check.getZ()) <= viewDistance;
+	}
 }

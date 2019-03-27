@@ -18,6 +18,7 @@ import com.volmit.volume.bukkit.nms.adapter.ChunkSendQueue;
 import com.volmit.volume.bukkit.nms.adapter.NMSA10;
 import com.volmit.volume.bukkit.nms.adapter.NMSA11;
 import com.volmit.volume.bukkit.nms.adapter.NMSA12;
+import com.volmit.volume.bukkit.nms.adapter.NMSA13;
 import com.volmit.volume.bukkit.nms.adapter.NMSA8;
 import com.volmit.volume.bukkit.nms.adapter.NMSA92;
 import com.volmit.volume.bukkit.nms.adapter.NMSA94;
@@ -73,6 +74,11 @@ public class NMSSVC implements IService, IAdapter
 		else if(Protocol.R1_12.to(Protocol.R1_12_2).contains(cp))
 		{
 			ia = new NMSA12();
+		}
+
+		else if(Protocol.R1_13.to(Protocol.R1_13_2).contains(cp))
+		{
+			ia = new NMSA13();
 		}
 
 		try
