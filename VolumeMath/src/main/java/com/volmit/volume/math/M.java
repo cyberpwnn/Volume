@@ -69,6 +69,137 @@ public class M
 		return (ns / 50000000.0);
 	}
 
+
+
+	/**
+	 * Copy of {@link java.lang.Long#parseLong(String, int)}.
+	 * but it works much faster than catching
+	 * {@link java.lang.NumberFormatException}
+	 *
+	 * @return is long or not
+	 */
+	public static boolean isLong(Object o, int radix) {
+		if (o == null) {
+			return false;
+		}
+
+		if (radix < Character.MIN_RADIX) {
+			return false;
+		}
+		if (radix > Character.MAX_RADIX) {
+			return false;
+		}
+
+		String s = String.valueOf(o);
+		long result = 0;
+		int i = 0, len = s.length();
+		long limit = -Long.MAX_VALUE;
+		long multmin;
+		int digit;
+
+		if (len > 0) {
+			char firstChar = s.charAt(0);
+			if (firstChar < '0') { // Possible leading "+" or "-"
+				if (firstChar == '-') {
+					limit = Long.MIN_VALUE;
+				} else if (firstChar != '+')
+					return false;
+
+				if (len == 1) // Cannot have lone "+" or "-"
+					return false;
+				i++;
+			}
+			multmin = limit / radix;
+			while (i < len) {
+				// Accumulating negatively avoids surprises near MAX_VALUE
+				digit = Character.digit(s.charAt(i++),radix);
+				if (digit < 0) {
+					return false;
+				}
+				if (result < multmin) {
+					return false;
+				}
+				result *= radix;
+				if (result < limit + digit) {
+					return false;
+				}
+				result -= digit;
+			}
+		} else {
+			return false;
+		}
+		return true;
+	}
+
+	public static boolean isLong(Object o) {
+		return isLong(o, 10);
+	}
+
+	/**
+	 * Copy of {@link java.lang.Integer#parseInt(String)} (String, int)}.
+	 * but it works much faster than catching
+	 * {@link java.lang.NumberFormatException}
+	 *
+	 * @return is int or not
+	 */
+	public static boolean isInt(Object o, int radix) {
+		if (o == null) {
+			return false;
+		}
+
+		if (radix < Character.MIN_RADIX) {
+			return false;
+		}
+
+		if (radix > Character.MAX_RADIX) {
+			return false;
+		}
+
+		String s = String.valueOf(o);
+		int result = 0;
+		int i = 0, len = s.length();
+		int limit = -Integer.MAX_VALUE;
+		int multmin;
+		int digit;
+
+		if (len > 0) {
+			char firstChar = s.charAt(0);
+			if (firstChar < '0') { // Possible leading "+" or "-"
+				if (firstChar == '-') {
+					limit = Integer.MIN_VALUE;
+				} else if (firstChar != '+')
+					return false;
+
+				if (len == 1) // Cannot have lone "+" or "-"
+					return false;
+				i++;
+			}
+			multmin = limit / radix;
+			while (i < len) {
+				// Accumulating negatively avoids surprises near MAX_VALUE
+				digit = Character.digit(s.charAt(i++),radix);
+				if (digit < 0) {
+					return false;
+				}
+				if (result < multmin) {
+					return false;
+				}
+				result *= radix;
+				if (result < limit + digit) {
+					return false;
+				}
+				result -= digit;
+			}
+		} else {
+			return false;
+		}
+		return true;
+	}
+
+	public static boolean isInt(Object o) {
+		return isInt(o,10);
+	}
+
 	/**
 	 * Get roman numeral representation of the int
 	 *
