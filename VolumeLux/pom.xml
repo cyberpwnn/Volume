@@ -41,12 +41,12 @@
 		<dependency>
 			<groupId>com.meethue</groupId>
 			<artifactId>HueSDKResources</artifactId>
-			<version>1.0</version>
+			<version>LATEST</version>
 		</dependency>
 		<dependency>
 			<groupId>com.meethue</groupId>
 			<artifactId>HueLocalSDK</artifactId>
-			<version>1.0</version>
+			<version>LATEST</version>
 		</dependency>
 		<dependency>
 			<groupId>com.volmit</groupId>

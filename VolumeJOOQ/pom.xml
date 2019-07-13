@@ -54,7 +54,7 @@
 		<dependency>
 			<groupId>org.jooq</groupId>
 			<artifactId>jooq-scala</artifactId>
-			<version>3.11.3</version>
+			<version>RELEASE</version>
 		</dependency>
 	</dependencies>
 </project>
