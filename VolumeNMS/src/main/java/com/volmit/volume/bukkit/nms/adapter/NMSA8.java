@@ -10,10 +10,7 @@ import org.bukkit.World;
 import org.bukkit.craftbukkit.v1_8_R3.CraftChunk;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftCreature;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
-import org.bukkit.entity.Creature;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
@@ -96,18 +93,16 @@ public class NMSA8 extends NMSAdapter
 	{
 		int bid = mb.getMaterial().getId() + (mb.getData() << 12);
 		PacketPlayOutSpawnEntity m = new PacketPlayOutSpawnEntity();
-		new V(m).set("a", eid);
-		new V(m).set("b", id);
-		new V(m).set("c", l.getX());
-		new V(m).set("d", l.getY());
-		new V(m).set("e", l.getZ());
+		new V(m).set("a", 70); // EntityType.FALLING_BLOCK.getTypeId());
+		new V(m).set("b", (int) l.getX());
+		new V(m).set("c", (int) l.getY());
+		new V(m).set("d", (int) l.getZ());
+		new V(m).set("e", 0);
 		new V(m).set("f", 0);
-		new V(m).set("g", 0);
 		new V(m).set("h", 0);
 		new V(m).set("i", 0);
-		new V(m).set("j", 0);
-		new V(m).set("k", 70);
-		new V(m).set("l", bid);
+		new V(m).set("j", 70);
+		new V(m).set("k", bid);
 		sendPacket(m, player);
 	}
 
