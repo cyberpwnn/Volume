@@ -93,7 +93,7 @@ public class NMSA8 extends NMSAdapter
 	{
 		int bid = mb.getMaterial().getId() + (mb.getData() << 12);
 		PacketPlayOutSpawnEntity m = new PacketPlayOutSpawnEntity();
-		new V(m).set("a", 70); // EntityType.FALLING_BLOCK.getTypeId());
+		new V(m).set("a", eid);
 		new V(m).set("b", (int) l.getX());
 		new V(m).set("c", (int) l.getY());
 		new V(m).set("d", (int) l.getZ());
@@ -444,12 +444,19 @@ public class NMSA8 extends NMSAdapter
 			}
 
 			PacketPlayOutMapChunk m = new PacketPlayOutMapChunk();
-			new V(m).set("a", c.getX());
-			new V(m).set("b", c.getZ());
-			new V(m).set("c", c.getBitMask());
-			new V(m).set("d", c.write());
-			new V(m).set("e", tags);
-			new V(m).set("f", c.isContinuous());
+			net.minecraft.server.v1_8_R3.Chunk mcChunk = (net.minecraft.server.v1_8_R3.Chunk) new V(area).invoke("getHandle");
+
+			new V(m).set("a", area.getX());
+			new V(m).set("b", area.getZ());
+			new V(m).set("d", c.isContinuous());
+			new V(m).set("c",
+				PacketPlayOutMapChunk.a(
+					mcChunk,
+					c.isContinuous(),
+					!(mcChunk.getWorld()).worldProvider.o(),
+					c.getBitMask()
+				)
+			);
 
 			if(c.isContinuous())
 			{
