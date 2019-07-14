@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.volmit</groupId>
 		<artifactId>Volume</artifactId>
-		<version>1.11</version>
+		<version>1.12</version>
 	</parent>
 	<artifactId>VolumeNMS</artifactId>
 	<name>VolumeNMS</name>
@@ -52,7 +52,7 @@
 		<dependency>
 			<groupId>com.volmit</groupId>
 			<artifactId>VolumeBukkit</artifactId>
-			<version>1.11</version>
+			<version>1.12</version>
 		</dependency>
 		<dependency>
 			<groupId>org.spigotmc</groupId>

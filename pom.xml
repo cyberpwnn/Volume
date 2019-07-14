@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.volmit</groupId>
 	<artifactId>Volume</artifactId>
-	<version>1.11</version>
+	<version>1.12</version>
 	<packaging>pom</packaging>
 	<name>Volume</name>
 	<description>A shared library across projects. Strives to accelerate plugin creation.</description>

@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.volmit</groupId>
 		<artifactId>Volume</artifactId>
-		<version>1.11</version>
+		<version>1.12</version>
 	</parent>
 	<artifactId>VolumePlugin</artifactId>
 	<name>VolumePlugin</name>
@@ -46,37 +46,37 @@
 		<dependency>
 			<groupId>com.volmit</groupId>
 			<artifactId>VolumeBukkit</artifactId>
-			<version>1.11</version>
+			<version>1.12</version>
 		</dependency>
 		<dependency>
 			<groupId>com.volmit</groupId>
 			<artifactId>VolumeNMS</artifactId>
-			<version>1.11</version>
+			<version>1.12</version>
 		</dependency>
 		<dependency>
 			<groupId>com.volmit</groupId>
 			<artifactId>VolumeCore</artifactId>
-			<version>1.11</version>
+			<version>1.12</version>
 		</dependency>
 		<dependency>
 			<groupId>com.volmit</groupId>
 			<artifactId>VolumeLang</artifactId>
-			<version>1.11</version>
+			<version>1.12</version>
 		</dependency>
 		<dependency>
 			<groupId>com.volmit</groupId>
 			<artifactId>VolumeMath</artifactId>
-			<version>1.11</version>
+			<version>1.12</version>
 		</dependency>
 		<dependency>
 			<groupId>com.volmit</groupId>
 			<artifactId>VolumeReflect</artifactId>
-			<version>1.11</version>
+			<version>1.12</version>
 		</dependency>
 		<dependency>
 			<groupId>com.volmit</groupId>
 			<artifactId>VolumeCluster</artifactId>
-			<version>1.11</version>
+			<version>1.12</version>
 		</dependency>
 		<dependency>
 			<groupId>org.spigotmc</groupId>
