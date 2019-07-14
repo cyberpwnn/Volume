@@ -655,12 +655,13 @@ public class NMSA8 extends NMSAdapter
 	@Override
 	public void moveEntityRelative(int eid, Player p, double x, double y, double z, boolean onGround)
 	{
-		PacketPlayOutRelEntityMove r = new PacketPlayOutRelEntityMove();
-		new V(r).set("a", eid);
-		new V(r).set("b", (short) (x * 4096));
-		new V(r).set("c", (short) (y * 4096));
-		new V(r).set("d", (short) (z * 4096));
-		new V(r).set("e", onGround);
+		PacketPlayOutRelEntityMove r = new PacketPlayOutRelEntityMove(
+				eid, // super: a
+				(byte) (x * 4096), // b
+				(byte) (y * 4096), // c
+				(byte) (z * 4096), // d
+				onGround // g
+		);
 		sendPacket(r, p);
 	}
 
@@ -669,11 +670,11 @@ public class NMSA8 extends NMSAdapter
 	{
 		PacketPlayOutEntityTeleport t = new PacketPlayOutEntityTeleport();
 		new V(t).set("a", eid);
-		new V(t).set("b", l.getX());
-		new V(t).set("c", l.getY());
-		new V(t).set("d", l.getZ());
-		new V(t).set("e", 0);
-		new V(t).set("f", 0);
+		new V(t).set("b", (int) l.getX());
+		new V(t).set("c", (int) l.getY());
+		new V(t).set("d", (int) l.getZ());
+		new V(t).set("e", (byte) 0);
+		new V(t).set("f", (byte) 0);
 		new V(t).set("g", onGround);
 		sendPacket(t, p);
 	}
