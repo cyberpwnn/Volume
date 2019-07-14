@@ -20,6 +20,9 @@ VolumeLux/target/
 VolumeFX/target/
 VolumeNMS/lib/
 
+.idea/
+*.iml
+
 # Eclipse & Maven
 target/
 .metadata
