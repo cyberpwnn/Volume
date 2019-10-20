@@ -33,21 +33,11 @@
 	</build>
 	<distributionManagement>
 		<repository>
-			<id>volmit</id>
-			<url>http://nexus.volmit.com/content/repositories/volmit</url>
+			<id>pub</id>
+			<url>http://nexus.mpm.care/content/repositories/pub</url>
 		</repository>
 	</distributionManagement>
 	<dependencies>
-		<dependency>
-			<groupId>com.meethue</groupId>
-			<artifactId>HueSDKResources</artifactId>
-			<version>1.0</version>
-		</dependency>
-		<dependency>
-			<groupId>com.meethue</groupId>
-			<artifactId>HueLocalSDK</artifactId>
-			<version>1.0</version>
-		</dependency>
 		<dependency>
 			<groupId>com.volmit</groupId>
 			<artifactId>VolumeLang</artifactId>

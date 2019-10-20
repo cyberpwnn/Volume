@@ -39,8 +39,8 @@
 	</build>
 	<distributionManagement>
 		<repository>
-			<id>volmit</id>
-			<url>http://nexus.volmit.com/content/repositories/volmit</url>
+			<id>pub</id>
+			<url>http://nexus.mpm.care/content/repositories/pub</url>
 		</repository>
 	</distributionManagement>
 	<artifactId>VolumeLang</artifactId>

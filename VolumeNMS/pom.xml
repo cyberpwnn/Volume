@@ -34,8 +34,8 @@
 	</build>
 	<distributionManagement>
 		<repository>
-			<id>volmit</id>
-			<url>http://nexus.volmit.com/content/repositories/volmit</url>
+			<id>pub</id>
+			<url>http://nexus.mpm.care/content/repositories/pub</url>
 		</repository>
 	</distributionManagement>
 	<repositories>
@@ -61,40 +61,46 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.bukkit</groupId>
-			<artifactId>craftbukkit12</artifactId>
-			<version>1.12.2</version>
-			<scope>provided</scope>
+			<artifactId>craftbukkit-1.12.2</artifactId>
+			<groupId>cb</groupId>
+			<version>1</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/craftbukkit-1.12.2.jar</systemPath>
 		</dependency>
 		<dependency>
-			<groupId>org.bukkit</groupId>
-			<artifactId>craftbukkit11</artifactId>
-			<version>1.11.2</version>
-			<scope>provided</scope>
+			<artifactId>craftbukkit-1.11.2</artifactId>
+			<groupId>cb</groupId>
+			<version>1</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/craftbukkit-1.11.2.jar</systemPath>
 		</dependency>
 		<dependency>
-			<groupId>org.bukkit</groupId>
-			<artifactId>craftbukkit10</artifactId>
-			<version>1.10.2</version>
-			<scope>provided</scope>
+			<artifactId>craftbukkit-1.10.2</artifactId>
+			<groupId>cb</groupId>
+			<version>1</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/craftbukkit-1.10.2.jar</systemPath>
 		</dependency>
 		<dependency>
-			<groupId>org.bukkit</groupId>
-			<artifactId>craftbukkit94</artifactId>
-			<version>1.9.4</version>
-			<scope>provided</scope>
+			<artifactId>craftbukkit-1.9.4</artifactId>
+			<groupId>cb</groupId>
+			<version>1</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/craftbukkit-1.9.4.jar</systemPath>
 		</dependency>
 		<dependency>
-			<groupId>org.bukkit</groupId>
-			<artifactId>craftbukkit92</artifactId>
-			<version>1.9.2</version>
-			<scope>provided</scope>
+			<artifactId>craftbukkit-1.9.2</artifactId>
+			<groupId>cb</groupId>
+			<version>1</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/craftbukkit-1.9.2.jar</systemPath>
 		</dependency>
 		<dependency>
-			<groupId>org.bukkit</groupId>
 			<artifactId>craftbukkit18</artifactId>
-			<version>1.8.8</version>
-			<scope>provided</scope>
+			<groupId>cb</groupId>
+			<version>1</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/craftbukkit-1.8.8.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
@@ -103,10 +109,11 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.bukkit</groupId>
 			<artifactId>craftbukkit13</artifactId>
-			<version>1.13.2</version>
-			<scope>provided</scope>
+			<groupId>cb</groupId>
+			<version>1</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/craftbukkit-1.13.jar</systemPath>
 		</dependency>
 	</dependencies>
 </project>

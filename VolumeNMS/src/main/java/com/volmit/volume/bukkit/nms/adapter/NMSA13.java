@@ -8,9 +8,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.craftbukkit.v1_13_R2.CraftChunk;
-import org.bukkit.craftbukkit.v1_13_R2.entity.CraftCreature;
-import org.bukkit.craftbukkit.v1_13_R2.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_13_R1.CraftChunk;
+import org.bukkit.craftbukkit.v1_13_R1.entity.CraftCreature;
+import org.bukkit.craftbukkit.v1_13_R1.entity.CraftPlayer;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -37,33 +37,33 @@ import com.volmit.volume.lang.collections.GSet;
 import com.volmit.volume.math.M;
 import com.volmit.volume.reflect.V;
 
-import net.minecraft.server.v1_13_R2.BlockPosition;
-import net.minecraft.server.v1_13_R2.EntityAnimal;
-import net.minecraft.server.v1_13_R2.EntityInsentient;
-import net.minecraft.server.v1_13_R2.IScoreboardCriteria.EnumScoreboardHealthDisplay;
-import net.minecraft.server.v1_13_R2.NBTTagCompound;
-import net.minecraft.server.v1_13_R2.NavigationAbstract;
-import net.minecraft.server.v1_13_R2.Packet;
-import net.minecraft.server.v1_13_R2.PacketPlayInEntityAction;
-import net.minecraft.server.v1_13_R2.PacketPlayInFlying;
-import net.minecraft.server.v1_13_R2.PacketPlayInSettings;
-import net.minecraft.server.v1_13_R2.PacketPlayOutCollect;
-import net.minecraft.server.v1_13_R2.PacketPlayOutEntity;
-import net.minecraft.server.v1_13_R2.PacketPlayOutEntity.PacketPlayOutRelEntityMove;
-import net.minecraft.server.v1_13_R2.PacketPlayOutEntityDestroy;
-import net.minecraft.server.v1_13_R2.PacketPlayOutEntityEffect;
-import net.minecraft.server.v1_13_R2.PacketPlayOutEntityTeleport;
-import net.minecraft.server.v1_13_R2.PacketPlayOutHeldItemSlot;
-import net.minecraft.server.v1_13_R2.PacketPlayOutMapChunk;
-import net.minecraft.server.v1_13_R2.PacketPlayOutMount;
-import net.minecraft.server.v1_13_R2.PacketPlayOutScoreboardDisplayObjective;
-import net.minecraft.server.v1_13_R2.PacketPlayOutScoreboardObjective;
-import net.minecraft.server.v1_13_R2.PacketPlayOutScoreboardScore;
-import net.minecraft.server.v1_13_R2.PacketPlayOutScoreboardTeam;
-import net.minecraft.server.v1_13_R2.PacketPlayOutSpawnEntity;
-import net.minecraft.server.v1_13_R2.PacketPlayOutUnloadChunk;
-import net.minecraft.server.v1_13_R2.PathEntity;
-import net.minecraft.server.v1_13_R2.TileEntity;
+import net.minecraft.server.v1_13_R1.BlockPosition;
+import net.minecraft.server.v1_13_R1.EntityAnimal;
+import net.minecraft.server.v1_13_R1.EntityInsentient;
+import net.minecraft.server.v1_13_R1.IScoreboardCriteria.EnumScoreboardHealthDisplay;
+import net.minecraft.server.v1_13_R1.NBTTagCompound;
+import net.minecraft.server.v1_13_R1.NavigationAbstract;
+import net.minecraft.server.v1_13_R1.Packet;
+import net.minecraft.server.v1_13_R1.PacketPlayInEntityAction;
+import net.minecraft.server.v1_13_R1.PacketPlayInFlying;
+import net.minecraft.server.v1_13_R1.PacketPlayInSettings;
+import net.minecraft.server.v1_13_R1.PacketPlayOutCollect;
+import net.minecraft.server.v1_13_R1.PacketPlayOutEntity;
+import net.minecraft.server.v1_13_R1.PacketPlayOutEntity.PacketPlayOutRelEntityMove;
+import net.minecraft.server.v1_13_R1.PacketPlayOutEntityDestroy;
+import net.minecraft.server.v1_13_R1.PacketPlayOutEntityEffect;
+import net.minecraft.server.v1_13_R1.PacketPlayOutEntityTeleport;
+import net.minecraft.server.v1_13_R1.PacketPlayOutHeldItemSlot;
+import net.minecraft.server.v1_13_R1.PacketPlayOutMapChunk;
+import net.minecraft.server.v1_13_R1.PacketPlayOutMount;
+import net.minecraft.server.v1_13_R1.PacketPlayOutScoreboardDisplayObjective;
+import net.minecraft.server.v1_13_R1.PacketPlayOutScoreboardObjective;
+import net.minecraft.server.v1_13_R1.PacketPlayOutScoreboardScore;
+import net.minecraft.server.v1_13_R1.PacketPlayOutScoreboardTeam;
+import net.minecraft.server.v1_13_R1.PacketPlayOutSpawnEntity;
+import net.minecraft.server.v1_13_R1.PacketPlayOutUnloadChunk;
+import net.minecraft.server.v1_13_R1.PathEntity;
+import net.minecraft.server.v1_13_R1.TileEntity;
 
 public class NMSA13 extends NMSAdapter
 {
@@ -216,7 +216,7 @@ public class NMSA13 extends NMSAdapter
 		new V(k).set("a", name);
 		new V(k).set("b", objective);
 		new V(k).set("c", score);
-		new V(k).set("d", net.minecraft.server.v1_13_R2.ScoreboardServer.Action.CHANGE);
+		new V(k).set("d", net.minecraft.server.v1_13_R1.ScoreboardServer.Action.CHANGE);
 		sendPacket(k, p);
 	}
 
@@ -227,7 +227,7 @@ public class NMSA13 extends NMSAdapter
 		new V(k).set("a", name);
 		new V(k).set("b", objective);
 		new V(k).set("c", 0);
-		new V(k).set("d", net.minecraft.server.v1_13_R2.ScoreboardServer.Action.REMOVE);
+		new V(k).set("d", net.minecraft.server.v1_13_R1.ScoreboardServer.Action.REMOVE);
 		sendPacket(k, p);
 	}
 
