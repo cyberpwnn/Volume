@@ -1,6 +1,6 @@
 package com.volmit.volume.bukkit.task;
 
-public abstract class S implements Runnable
+public class S implements Runnable
 {
 	public static TaskManager m;
 
@@ -12,5 +12,21 @@ public abstract class S implements Runnable
 	public S(long delay)
 	{
 		m.sync(delay, this);
+	}
+
+	public S(Runnable runnable)
+	{
+		m.sync(runnable);
+	}
+
+	public S(long delay, Runnable runnable)
+	{
+		m.sync(delay, runnable);
+	}
+
+	@Override
+	public void run()
+	{
+
 	}
 }
